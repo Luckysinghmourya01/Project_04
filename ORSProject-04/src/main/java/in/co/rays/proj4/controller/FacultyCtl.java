@@ -1,0 +1,135 @@
+package in.co.rays.proj4.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import in.co.rays.proj4.exception.ApplicationException;
+import in.co.rays.proj4.model.CollageModel;
+import in.co.rays.proj4.model.CourseModel;
+import in.co.rays.proj4.model.SubjectModel;
+import in.co.rays.proj4.util.DataValidator;
+import in.co.rays.proj4.util.PropertyReader;
+import in.co.rays.proj4.util.ServletUtility;
+
+@WebServlet("/FacultyCtl")
+public class FacultyCtl extends BaseCtl {
+
+	@Override
+	protected void preload(HttpServletRequest request) {
+
+		CollageModel collegeModel = new CollageModel();
+		SubjectModel subjectModel = new SubjectModel();
+		CourseModel courseModel = new CourseModel();
+
+		try {
+			List collegeList = collegeModel.list();
+			request.setAttribute("collegeList", collegeList);
+
+			List subjectList = subjectModel.list();
+			request.setAttribute("subjectList", subjectList);
+
+			List courseList = courseModel.list();
+			request.setAttribute("courseList", courseList);
+		} catch (ApplicationException e) {
+
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	protected boolean validate(HttpServletRequest request) {
+
+		boolean pass = true;
+
+		if (DataValidator.isNull(request.getParameter("firstName"))) {
+			request.setAttribute("firstName", PropertyReader.getValue("error.require", "First Name"));
+			pass = false;
+		} else if (!DataValidator.isName(request.getParameter("firstName"))) {
+			request.setAttribute("firstName", "Invalid First Name");
+			pass = false;
+		}
+
+		if (DataValidator.isNull(request.getParameter("lastName"))) {
+			request.setAttribute("lastName", PropertyReader.getValue("error.require", "Last Name"));
+			pass = false;
+		} else if (!DataValidator.isName(request.getParameter("lastName"))) {
+			request.setAttribute("lastName", "Invalid Last Name");
+			pass = false;
+		}
+
+		if (DataValidator.isNull(request.getParameter("gender"))) {
+			request.setAttribute("gender", PropertyReader.getValue("error.require", "Gender"));
+			pass = false;
+		}
+
+		if (DataValidator.isNull(request.getParameter("dob"))) {
+			request.setAttribute("dob", PropertyReader.getValue("error.require", "Date of Birth"));
+			pass = false;
+		} else if (!DataValidator.isDate(request.getParameter("dob"))) {
+			request.setAttribute("dob", PropertyReader.getValue("error.date", "Date of Birth"));
+			pass = false;
+		}
+
+		if (DataValidator.isNull(request.getParameter("email"))) {
+			request.setAttribute("email", PropertyReader.getValue("error.require", "Email "));
+			pass = false;
+		} else if (!DataValidator.isEmail(request.getParameter("email"))) {
+			request.setAttribute("email", PropertyReader.getValue("error.email", "Email "));
+			pass = false;
+		}
+
+		if (DataValidator.isNull(request.getParameter("mobileNo"))) {
+			request.setAttribute("mobileNo", PropertyReader.getValue("error.require", "Mobile No"));
+			pass = false;
+		} else if (!DataValidator.isPhoneLength(request.getParameter("mobileNo"))) {
+			request.setAttribute("mobileNo", "Mobile No must have 10 digits");
+			pass = false;
+		} else if (!DataValidator.isPhoneNo(request.getParameter("mobileNo"))) {
+			request.setAttribute("mobileNo", "Invalid Mobile No");
+			pass = false;
+		}
+
+		if (DataValidator.isNull(request.getParameter("collegeId"))) {
+			request.setAttribute("collegeId", PropertyReader.getValue("error.require", "College Name"));
+			pass = false;
+		}
+
+		if (DataValidator.isNull(request.getParameter("courseId"))) {
+			request.setAttribute("courseId", PropertyReader.getValue("error.require", "Course Name"));
+			pass = false;
+		}
+
+		if (DataValidator.isNull(request.getParameter("subjectId"))) {
+			request.setAttribute("subjectId", PropertyReader.getValue("error.require", "Subject Name"));
+			pass = false;
+		}
+
+		return pass;
+	}
+
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		ServletUtility.forword(getView(), request, response);
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		ServletUtility.forword(getView(), request, response);
+	}
+
+	@Override
+	protected String getView() {
+
+		return ORSView.FACULTY_VIEW;
+	}
+
+}
