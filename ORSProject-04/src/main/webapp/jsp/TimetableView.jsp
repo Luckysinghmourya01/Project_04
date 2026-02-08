@@ -31,6 +31,28 @@
 				List<CourseBean> courseList = (List<CourseBean>) request.getAttribute("courseList");
 				List<Subjectbean> subjectList = (List<Subjectbean>) request.getAttribute("subjectList");
 			%>
+			
+			<div style="height: 15px; margin-bottom: 12px">
+				<h3 align="center">
+					<font color="green"> <%=ServletUtility.getSuccessMessage(request)%>
+					</font>
+				</h3>
+				<h3 align="center">
+					<font color="red"> <%=ServletUtility.getErrorMessage(request)%>
+					</font>
+				</h3>
+			</div>
+			
+			
+			<input type="hidden" name="id" value="<%=bean.getId()%>"> <input
+				type="hidden" name="createdby" value="<%=bean.getCreatedby()%>">
+			<input type="hidden" name="modifiedby"
+				value="<%=bean.getModifiedby()%>"> <input type="hidden"
+				name="createddatetime"
+				value="<%=DataUtility.getTimestamp(bean.getCreateddatetime())%>">
+			<input type="hidden" name="modifieddatetime"
+				value="<%=DataUtility.getTimestamp(bean.getModifieddatetime())%>">
+			
 
 			<table>
 				<tr>

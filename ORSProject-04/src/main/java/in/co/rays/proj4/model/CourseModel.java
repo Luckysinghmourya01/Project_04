@@ -9,58 +9,65 @@ import java.util.List;
 import in.co.rays.proj4.bean.CourseBean;
 import in.co.rays.proj4.exception.ApplicationException;
 import in.co.rays.proj4.exception.DatabaseException;
+import in.co.rays.proj4.exception.DublicateRecordException;
 import in.co.rays.proj4.util.JDBCDataSource;
 
 public class CourseModel {
 
 	public Integer nextPk() throws DatabaseException {
-
 		Connection conn = null;
 		int pk = 0;
 		try {
 			conn = JDBCDataSource.getConnection();
-			PreparedStatement pstm = conn.prepareStatement("select max(id) from st_course");
-			ResultSet rs = pstm.executeQuery();
+			PreparedStatement pstmt = conn.prepareStatement("select max(id) from st_course");
+			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				pk = rs.getInt(1);
-				pstm.close();
 			}
+			rs.close();
+			pstmt.close();
 		} catch (Exception e) {
-			throw new DatabaseException("exxception : exception is getting course pk");
+			throw new DatabaseException("Exception : Exception in getting PK");
 		} finally {
 			JDBCDataSource.closeconnection(conn);
 		}
 		return pk + 1;
 	}
 
-	public long add(CourseBean bean) throws ApplicationException {
-
+	public long add(CourseBean bean) throws ApplicationException, DublicateRecordException {
 		Connection conn = null;
 		int pk = 0;
+
+		CourseBean duplicateCourse = findByName(bean.getName());
+
+		if (duplicateCourse != null) {
+			throw new DublicateRecordException("Course Name already exists");
+		}
+
 		try {
-			pk = nextPk();
 			conn = JDBCDataSource.getConnection();
+			pk = nextPk();
 			conn.setAutoCommit(false);
-			PreparedStatement pstm = conn.prepareStatement("insert into st_course values(?,?,?,?,?,?,?,?)");
-			pstm.setLong(1, pk);
-			pstm.setString(2, bean.getName());
-			pstm.setString(3, bean.getDuration());
-			pstm.setString(4, bean.getDescription());
-			pstm.setString(5, bean.getCreatedby());
-			pstm.setString(6, bean.getModifiedby());
-			pstm.setTimestamp(7, bean.getCreateddatetime());
-			pstm.setTimestamp(8, bean.getModifieddatetime());
-			pstm.executeUpdate();
+			PreparedStatement pstmt = conn.prepareStatement("insert into st_course values(?, ?, ?, ?, ?, ?, ?, ?)");
+			pstmt.setInt(1, pk);
+			pstmt.setString(2, bean.getName());
+			pstmt.setString(3, bean.getDuration());
+			pstmt.setString(4, bean.getDescription());
+			pstmt.setString(5, bean.getCreatedby());
+			pstmt.setString(6, bean.getModifiedby());
+			pstmt.setTimestamp(7, bean.getCreateddatetime());
+			pstmt.setTimestamp(8, bean.getModifieddatetime());
+			pstmt.executeUpdate();
 			conn.commit();
-			pstm.close();
+			pstmt.close();
 		} catch (Exception e) {
-			e.getMessage();
+			e.printStackTrace();
 			try {
 				conn.rollback();
 			} catch (Exception ex) {
-				throw new ApplicationException("exception : exception getting add rollback" + e.getMessage());
+				throw new ApplicationException("Exception : add rollback exception " + ex.getMessage());
 			}
-			throw new ApplicationException("exception : exception is getting add course");
+			throw new ApplicationException("Exception : Exception in add Course");
 		} finally {
 			JDBCDataSource.closeconnection(conn);
 		}
@@ -184,60 +191,57 @@ public class CourseModel {
 		}
 		return bean;
 	}
-	
+
 	public List<CourseBean> list() throws ApplicationException {
 		return search(null, 0, 0);
 	}
-	
-	public List<CourseBean> search(CourseBean bean, int i, int j) throws ApplicationException{
-		
-		StringBuffer sb = new StringBuffer("select * from st_course where 1=1");
-		
-		if(bean != null) {
-			if(bean.getId() > 0){
-				sb.append("and id" + bean.getId());
+
+	public List<CourseBean> search(CourseBean bean, int i, int j) throws ApplicationException {
+
+		StringBuffer sb = new StringBuffer("select * from st_course where 1 = 1");
+
+		if (bean != null) {
+			if (bean.getId() > 0) {
+				sb.append("and id=" + bean.getId());
 			}
-			if(bean.getName() != null && bean.getName().length() > 0) {
-				sb.append("and name like" + bean.getName());
+			if (bean.getName() != null && bean.getName().length() > 0) {
+				sb.append(" and name like " +bean.getName() + "%'");
 			}
-			if(bean.getDuration() != null && bean.getDuration().length() > 0) {
-				sb.append("and duration like" + bean.getDuration()+ "%");
+			if (bean.getDuration() != null && bean.getDuration().length() > 0) {
+				sb.append(" and duration like " + bean.getDuration() + "%'");
 			}
-			if(bean.getDescription()!= null && bean.getDescription().length() > 0) {
-				sb.append("and description" + bean.getDescription() + "%");
+			if (bean.getDescription() != null && bean.getDescription().length() > 0) {
+				sb.append(" and description like " + bean.getDescription() + "%'");
 			}
 		}
-		
+
 		Connection conn = null;
-		
+
 		ArrayList<CourseBean> list = new ArrayList<CourseBean>();
 		try {
-		conn = 	JDBCDataSource.getConnection();
-		PreparedStatement pstm  = conn.prepareStatement(sb.toString());
-		ResultSet rs = pstm.executeQuery();
-		while(rs.next()) {
-			bean = new CourseBean();
-			bean.setId(rs.getLong(1));
-			bean.setName(rs.getString(2));
-			bean.setDuration(rs.getString(3));
-			bean.setDescription(rs.getString(4));
-			bean.setCreatedby(rs.getString(5));
-			bean.setModifiedby(rs.getString(6));
-			bean.setCreateddatetime(rs.getTimestamp(7));
-			bean.setModifieddatetime(rs.getTimestamp(8));
-			list.add(bean);
+			conn = JDBCDataSource.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sb.toString());
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				bean = new CourseBean();
+				bean.setId(rs.getLong(1));
+				bean.setName(rs.getString(2));
+				bean.setDuration(rs.getString(3));
+				bean.setDescription(rs.getString(4));
+				bean.setCreatedby(rs.getString(5));
+				bean.setModifiedby(rs.getString(6));
+				bean.setCreateddatetime(rs.getTimestamp(7));
+				bean.setModifieddatetime(rs.getTimestamp(8));
+				list.add(bean);
+			}
 			pstm.close();
-		}
-		
-		}
-		catch(Exception e) {
+
+		} catch (Exception e) {
 			throw new ApplicationException("exception : exception is getting search course");
-		}
-		finally{
+		} finally {
 			JDBCDataSource.closeconnection(conn);
 		}
 		return list;
 	}
-	
-}
 
+}

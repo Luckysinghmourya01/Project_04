@@ -75,9 +75,9 @@ public class HtmlUtility {
 
 	public static void testGetListByList() throws Exception {
 
-		//RoleModel model = new RoleModel();
+		// RoleModel model = new RoleModel();
 
-		 UserModel model = new UserModel();
+		UserModel model = new UserModel();
 
 		List list = model.list();
 
@@ -88,7 +88,7 @@ public class HtmlUtility {
 		System.out.println(htmlSelectFromList);
 	}
 
-	public static void main(String[] args) throws Throwable  {
+	public static void main(String[] args) throws Throwable {
 
 		// testGetListByMap();
 

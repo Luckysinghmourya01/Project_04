@@ -1,3 +1,4 @@
+<%@page import="in.co.rays.proj4.bean.CourseBean"%>
 <%@page import="in.co.rays.proj4.util.ServletUtility"%>
 <%@page import="in.co.rays.proj4.controller.SubjectCtl"%>
 <%@page import="in.co.rays.proj4.util.HtmlUtility"%>
@@ -16,55 +17,73 @@
 	<%@ include file="Header.jsp"%>
 	<div align="center">
 
-<form action="<%=ORSView.SUBJECT_CTL%>" method="post">
-		<%
-			List<Subjectbean> courseList = (List<Subjectbean>) request.getAttribute("courseList");
-		%>
-		<jsp:useBean id="bean" class="in.co.rays.proj4.bean.Subjectbean"
-			scope="request"></jsp:useBean>
+		<form action="<%=ORSView.SUBJECT_CTL%>" method="post">
+			<%
+				List<CourseBean> courseList = (List<CourseBean>) request.getAttribute("courseList");
+			%>
+			<jsp:useBean id="bean" class="in.co.rays.proj4.bean.Subjectbean"
+				scope="request"></jsp:useBean>
 
-		<h1 align="center" style="margin-bottom: -15; color: navy">Add
-			Subject</h1>
+			<h1 align="center" style="margin-bottom: -15; color: navy">Add
+				Subject</h1>
 
-		<table>
-			<tr>
-				<th align="left">Name<span style="color: red">*</span></th>
-				<td><input type="text" name="name"
-					placeholder="Enter Subject Name"
-					value="<%=DataUtility.getStringData(bean.getName())%>"></td>
-					
-					<td style="position: fixed;">
-						<font color="red"><%=ServletUtility.getErrorMessage("name", request) %></font>
-						</td>
-			</tr>
+			<div style="height: 15px; margin-bottom: 12px">
+				<h3 align="center">
+					<font color="red"><%=ServletUtility.getErrorMessage(request)%></font>
+				</h3>
 
-			<tr>
-				<th align="left">Course<span style="color: red">*</span></th>
-				<td><%=HtmlUtility.getList("courseId", String.valueOf(bean.getCourseId()), courseList)%>
-				</td>
-				
-				<td style="position: fixed;">
-						<font color="red"><%=ServletUtility.getErrorMessage("courseId", request) %></font>
-						</td>
-			</tr>
+				<H3 align="center">
+					<font color="green"> <%=ServletUtility.getSuccessMessage(request)%>
+					</font>
+				</H3>
+			</div>
 
-			<tr>
-				<th align="left">Description<span style="color: red">*</span></th>
-				<td><textarea style="width: 170px; resize: none;"
-						name="description" row="3" placeholder="Enter Short Description"
-						value="<%=DataUtility.getStringData(bean.getDescription())%>"></textarea></td>
-						
-						<td style="position: fixed;">
-						<font color="red"><%=ServletUtility.getErrorMessage("description", request) %></font>
-						</td>
-			</tr>
-			<th></th>
-			 <td align="left" colspan="2">
-                            <input type="submit" name="operation" value="<%=SubjectCtl.OP_SAVE%>">
-                            <input type="submit" name="operation" value="<%=SubjectCtl.OP_RESET%>">
-                        </td>
-			</tr>
-		</table>
+
+			<input type="hidden" name="id" value="<%=bean.getId()%>"> <input
+				type="hidden" name="createdby" value="<%=bean.getCreatedby()%>">
+			<input type="hidden" name="modifiedby"
+				value="<%=bean.getModifiedby()%>"> <input type="hidden"
+				name="createddatetime"
+				value="<%=DataUtility.getTimestamp(bean.getCreateddatetime())%>">
+			<input type="hidden" name="modifieddatetime"
+				value="<%=DataUtility.getTimestamp(bean.getModifieddatetime())%>">
+
+			<table>
+				<tr>
+					<th align="left">Subject<span style="color: red">*</span></th>
+					<td><input type="text" name="name"
+						placeholder="Enter Subject Name"
+						value="<%=DataUtility.getStringData(bean.getName())%>"></td>
+					<td style="position: fixed;"><font color="red"> <%=ServletUtility.getErrorMessage("name", request)%>
+					</font></td>
+				</tr>
+
+				<tr>
+					<th align="left">Course<span style="color: red">*</span></th>
+					<td><%=HtmlUtility.getList("courseId", String.valueOf(bean.getCourseId()), courseList)%>
+					</td>
+					<td style="position: fixed;"><font color="red"> <%=ServletUtility.getErrorMessage("courseId", request)%>
+					</font></td>
+				</tr>
+
+				<tr>
+					<th align="left">Description<span style="color: red">*</span></th>
+					<td align="center"><textarea
+							style="width: 170px; resize: none;" name="description" rows="3"
+							placeholder="Enter Short description"><%=DataUtility.getStringData(bean.getDescription()).trim()%></textarea>
+					</td>
+					<td style="position: fixed;"><font color="red"> <%=ServletUtility.getErrorMessage("description", request)%>
+					</font></td>
+				</tr>
+
+				<tr>
+					<th>
+					<td align="left" colspan="2"><input type="submit"
+						name="operation" value="<%=SubjectCtl.OP_SAVE%>"> <input
+						type="submit" name="operation" value="<%=SubjectCtl.OP_RESET%>"></td>
+					</th>
+				</tr>
+			</table>
 		</form>
 	</div>
 </body>

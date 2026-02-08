@@ -8,9 +8,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import in.co.rays.proj4.bean.BaseBean;
+import in.co.rays.proj4.bean.TimetableBean;
 import in.co.rays.proj4.exception.ApplicationException;
+import in.co.rays.proj4.exception.DublicateRecordException;
 import in.co.rays.proj4.model.CourseModel;
 import in.co.rays.proj4.model.SubjectModel;
+import in.co.rays.proj4.model.TimeTableModel;
+import in.co.rays.proj4.util.DataUtility;
 import in.co.rays.proj4.util.DataValidator;
 import in.co.rays.proj4.util.PropertyReader;
 import in.co.rays.proj4.util.ServletUtility;
@@ -78,6 +83,23 @@ public class TimetableCtl extends BaseCtl {
 	}
 
 	@Override
+	protected BaseBean populateBean(HttpServletRequest request) {
+		TimetableBean bean = new TimetableBean();
+
+		bean.setId(DataUtility.getLong("id"));
+		bean.setSemester(DataUtility.getString("semester"));
+		bean.setDescription(DataUtility.getString("description"));
+		bean.setExamTime(DataUtility.getString(request.getParameter("examTime")));
+		bean.setExamDate(DataUtility.getDate(request.getParameter("examDate")));
+		bean.setCourseId(DataUtility.getLong(request.getParameter("courseId")));
+		bean.setSubjectId(DataUtility.getLong(request.getParameter("subjectId")));
+		
+		populateDTO(bean, request);
+		
+		return bean;
+	}
+
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -87,6 +109,51 @@ public class TimetableCtl extends BaseCtl {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		String op = DataUtility.getString(request.getParameter("operation"));
+		
+		TimeTableModel model = new TimeTableModel();
+		
+		if(OP_SAVE.equalsIgnoreCase(op)) {
+			
+		TimetableBean bean = (TimetableBean)	populateBean(request);
+		
+		TimetableBean  bean1;
+		TimetableBean  bean2;
+		TimetableBean  bean3;
+		
+		try {
+			bean1 = model.checkByCourseName(bean.getCourseId(),bean.getExamDate());
+			
+			bean2 = model.checkBySubjectName(bean.getCourseId(), bean.getSubjectId(), bean.getExamDate());
+
+			bean3 = model.checkBySemester(bean.getCourseId(), bean.getSubjectId(), bean.getSemester(),bean.getExamDate());
+			
+			if (bean1 == null && bean2 == null && bean3 == null) {
+				long pk = model.add(bean);
+				ServletUtility.setBean(bean, request);
+				ServletUtility.setSuccessMessage("Timetable added successfully", request);
+			} else {
+				bean = (TimetableBean) populateBean(request);
+				ServletUtility.setBean(bean, request);
+				ServletUtility.setErrorMessage("Timetable already exist!", request);
+			}
+		}
+		
+		catch (DublicateRecordException e) {
+			ServletUtility.setBean(bean, request);
+			ServletUtility.setErrorMessage("Timetable already exist!", request);
+		} catch (ApplicationException e) {
+			e.printStackTrace();
+			ServletUtility.handleException(e, request, response);
+			return;
+		}
+		}else if (OP_RESET.equalsIgnoreCase(op)) {
+			ServletUtility.redirect(ORSView.TIMETABLE_CTL, request, response);
+			return;
+		}
+
+	
 
 		ServletUtility.forword(getView(), request, response);
 	}

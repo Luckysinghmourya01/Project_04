@@ -269,11 +269,11 @@ public class UserModel {
 		return bean;
 	}
 
-	public List<RoleBean> list() throws ApplicationException {
+	public List<UserBean>list() throws ApplicationException {
 		return search(null, 0, 0);
 	}
 
-	public List search(UserBean bean, int i, int j) throws ApplicationException {
+	public List search(UserBean bean, int pageNo, int pageSize) throws ApplicationException {
 		Connection conn = null;
 		ArrayList<UserBean> list = new ArrayList<UserBean>();
 
@@ -302,15 +302,21 @@ public class UserModel {
 				sql.append(" and mobile_no = " + bean.getMobileNo());
 			}
 
+			
 			/*
 			 * if (bean.getRoleId() > 0) { sql.append(" and role_id = " + bean.getRoleId());
-			 * }
 			 */
+			 
 
 			if (bean.getGender() != null && bean.getGender().length() > 0) {
 				sql.append(" and gender like '" + bean.getGender() + "%'");
 			}
 		}
+			
+			if (pageSize > 0) {
+				pageNo = (pageNo - 1) * pageSize;
+				sql.append(" limit " + pageNo + ", " + pageSize);
+			}
 
 		try {
 			conn = JDBCDataSource.getConnection();

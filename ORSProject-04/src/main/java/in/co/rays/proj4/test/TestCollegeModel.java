@@ -5,6 +5,7 @@ import java.util.Date;
 
 import in.co.rays.proj4.bean.CollageBean;
 import in.co.rays.proj4.exception.ApplicationException;
+import in.co.rays.proj4.exception.DatabaseException;
 import in.co.rays.proj4.exception.DublicateRecordException;
 import in.co.rays.proj4.model.CollageModel;
 
@@ -12,6 +13,14 @@ public class TestCollegeModel {
 
 	public static void main(String[] args) throws ApplicationException, DublicateRecordException {
       testAdd();
+	}
+	
+	public static void testnextPk() throws DatabaseException {
+		CollageModel model = new CollageModel();
+		CollageBean bean = new CollageBean();
+		
+		model.nextPk();
+		
 	}
 
 	public static void testAdd() throws ApplicationException, DublicateRecordException {

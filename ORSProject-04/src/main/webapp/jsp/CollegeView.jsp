@@ -18,7 +18,7 @@
 			scope="request"></jsp:useBean>
 
 		<div align="center">
-			<h1>Add College</h1>
+			<h1 align="center" style="margin-bottom: -15px; color: navy">Add College</h1>
 			
 			<div style="height: 15px; margin-bottom: 12px">
 			<h3 align="center">

@@ -20,61 +20,69 @@ public class SubjectModel {
 		int pk = 0;
 		try {
 			conn = JDBCDataSource.getConnection();
-			PreparedStatement pstm = conn.prepareStatement("select max(id) from st_subject");
-			ResultSet rs = pstm.executeQuery();
+			PreparedStatement pstmt = conn.prepareStatement("select max(id) from st_subject");
+			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				pk = rs.getInt(1);
 			}
+			rs.close();
+			pstmt.close();
 		} catch (Exception e) {
-			throw new DatabaseException("exception : exception is getting subject find by pk");
+			throw new DatabaseException("Exception : Exception in getting PK");
 		} finally {
 			JDBCDataSource.closeconnection(conn);
 		}
 		return pk + 1;
 	}
 
-	public long add(Subjectbean bean) throws ApplicationException {
-
+	public long add(Subjectbean bean) throws ApplicationException, DublicateRecordException {
 		Connection conn = null;
 		int pk = 0;
-     try {
-    	pk =  nextPk();
-    	conn =  JDBCDataSource.getConnection();
-    	conn.setAutoCommit(false);
-    	PreparedStatement pstm = conn.prepareStatement("insert into st_subject value(?,?,?,?,?,?,?,?,?)");
-    	pstm.setLong(1, pk);
-    	pstm.setString(2, bean.getName());
-    	pstm.setLong(3, bean.getCourseId());
-    	pstm.setString(4, bean.getCourseName());
-    	pstm.setString(5, bean.getDescription());
-    	pstm.setString(6, bean.getCreatedby());
-    	pstm.setString(7, bean.getModifiedby());
-    	pstm.setTimestamp(8, bean.getCreateddatetime());
-    	pstm.setTimestamp(9, bean.getModifieddatetime());
-    	pstm.executeUpdate();
-    	conn.commit();
-    	pstm.close();
-    	 
-     }
-     catch(Exception e) {
-    	 try {
-    		 conn.rollback();
-    	 }
-    	 catch(Exception ex) {
-    		 throw new ApplicationException("exception : exception is getting subject rollback");
-    	 }
-    	 throw new ApplicationException("exception : exception is getting add subject");
-     }finally {
-    	 JDBCDataSource.closeconnection(conn);
-     }
-	
-	return pk;
-    
+
+		CourseModel courseModel = new CourseModel();
+		CourseBean courseBean = courseModel.findByPk(bean.getCourseId());
+		bean.setCourseName(courseBean.getName());
+
+		Subjectbean duplicateSubject = findByName(bean.getName());
+		if (duplicateSubject != null) {
+			throw new DublicateRecordException("Subject Name already exists");
+		}
+
+		try {
+			conn = JDBCDataSource.getConnection();
+			pk = nextPk();
+			conn.setAutoCommit(false); // Begin transaction
+			PreparedStatement pstmt = conn.prepareStatement("insert into st_subject values(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			pstmt.setInt(1, pk);
+			pstmt.setString(2, bean.getName());
+			pstmt.setLong(3, bean.getCourseId());
+			pstmt.setString(4, bean.getCourseName());
+			pstmt.setString(5, bean.getDescription());
+			pstmt.setString(6, bean.getCreatedby());
+			pstmt.setString(7, bean.getModifiedby());
+			pstmt.setTimestamp(8, bean.getCreateddatetime());
+			pstmt.setTimestamp(9, bean.getModifieddatetime());
+			pstmt.executeUpdate();
+			conn.commit(); // End transaction
+			pstmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (Exception ex) {
+				throw new ApplicationException("Exception : add rollback exception " + ex.getMessage());
+			}
+			throw new ApplicationException("Exception : Exception in add Subject");
+		} finally {
+			JDBCDataSource.closeconnection(conn);
+		}
+		return pk;
+
 	}
-	
+
 	public void update(Subjectbean bean) throws ApplicationException, DublicateRecordException {
 		Connection conn = null;
-		
+
 		CourseModel courseModel = new CourseModel();
 		CourseBean courseBean = courseModel.findByPk(bean.getCourseId());
 		bean.setCourseName(courseBean.getName());
@@ -172,15 +180,15 @@ public class SubjectModel {
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				bean = new Subjectbean();
-				pstmt.setLong(1, bean.getId());
-				pstmt.setString(2, bean.getName());
-				pstmt.setLong(3, bean.getCourseId());
-				pstmt.setString(4, bean.getCourseName());
-				pstmt.setString(5, bean.getDescription());
-				pstmt.setString(6, bean.getCreatedby());
-				pstmt.setString(7, bean.getModifiedby());
-				pstmt.setTimestamp(8, bean.getCreateddatetime());
-				pstmt.setTimestamp(9, bean.getModifieddatetime());
+				bean.setId(rs.getLong(1));
+				bean.setName(rs.getString(2));
+				bean.setCourseId(rs.getLong(3));
+				bean.setCourseName(rs.getString(4));
+				bean.setDescription(rs.getString(5));
+				bean.setCreatedby(rs.getString(6));
+				bean.setModifiedby(rs.getString(7));
+				bean.setModifieddatetime(rs.getTimestamp(8));
+				bean.setModifieddatetime(rs.getTimestamp(9));
 			}
 			rs.close();
 			pstmt.close();
@@ -252,4 +260,3 @@ public class SubjectModel {
 		return list;
 	}
 }
-

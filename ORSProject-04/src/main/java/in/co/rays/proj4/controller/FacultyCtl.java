@@ -8,10 +8,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import in.co.rays.proj4.bean.BaseBean;
+import in.co.rays.proj4.bean.FacultyBean;
 import in.co.rays.proj4.exception.ApplicationException;
+import in.co.rays.proj4.exception.DublicateRecordException;
 import in.co.rays.proj4.model.CollageModel;
 import in.co.rays.proj4.model.CourseModel;
+import in.co.rays.proj4.model.FacultyModel;
 import in.co.rays.proj4.model.SubjectModel;
+import in.co.rays.proj4.util.DataUtility;
 import in.co.rays.proj4.util.DataValidator;
 import in.co.rays.proj4.util.PropertyReader;
 import in.co.rays.proj4.util.ServletUtility;
@@ -113,6 +118,26 @@ public class FacultyCtl extends BaseCtl {
 	}
 
 	@Override
+	protected BaseBean populateBean(HttpServletRequest request) {
+		FacultyBean bean = new FacultyBean();
+
+		bean.setId(DataUtility.getLong(request.getParameter("id")));
+		bean.setFirstName(DataUtility.getString(request.getParameter("firstName")));
+		bean.setLastName(DataUtility.getString(request.getParameter("lastName")));
+		bean.setGender(DataUtility.getString(request.getParameter("gender")));
+		bean.setDob(DataUtility.getDate(request.getParameter("dob")));
+		bean.setMobileNo(DataUtility.getString(request.getParameter("mobileNo")));
+		bean.setEmail(DataUtility.getString(request.getParameter("email")));
+		bean.setCollegeId(DataUtility.getLong(request.getParameter("collegeId")));
+		bean.setCourseId(DataUtility.getLong(request.getParameter("courseId")));
+		bean.setSubjectId(DataUtility.getLong(request.getParameter("subjectId")));
+
+		populateDTO(bean, request);
+
+		return bean;
+	}
+
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -123,6 +148,30 @@ public class FacultyCtl extends BaseCtl {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		String op = DataUtility.getString(request.getParameter("operation"));
+
+		FacultyModel model = new FacultyModel();
+
+		long id = DataUtility.getLong(request.getParameter("id"));
+
+		if (OP_SAVE.equalsIgnoreCase(op)) {
+			FacultyBean bean = (FacultyBean) populateBean(request);
+			try {
+				long pk = model.add(bean);
+				ServletUtility.setBean(bean, request);
+				ServletUtility.setSuccessMessage("Faculty added successfully", request);
+			} catch (DublicateRecordException e) {
+				ServletUtility.setBean(bean, request);
+				ServletUtility.setErrorMessage("Email already exists", request);
+			} catch (ApplicationException e) {
+				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
+				return;
+			}
+		} else if (OP_RESET.equalsIgnoreCase(op)) {
+			ServletUtility.redirect(ORSView.FACULTY_CTL, request, response);
+			return;
+		}
 		ServletUtility.forword(getView(), request, response);
 	}
 
