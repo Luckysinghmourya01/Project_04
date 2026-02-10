@@ -88,9 +88,10 @@ public abstract class BaseCtl extends HttpServlet {
 				&& !OP_DELETE.equalsIgnoreCase(op) && !OP_RESET.equalsIgnoreCase(op)) {
 
 			if (validate(request) == false) {
-			BaseBean bean = (BaseBean)populateBean(request);
-			ServletUtility.setBean(bean, request);
-
+				
+				  BaseBean bean = (BaseBean)populateBean(request); ServletUtility.setBean(bean,
+				  request);
+				 
 				ServletUtility.forword(getView(), request, response);
 				return;
 			}

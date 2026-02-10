@@ -24,11 +24,11 @@
 		<h1 align="center" style="margin-bottom: -15; color: navy">College
 			List</h1>
 
-		<div style="height: 15px; margin-bottom: 12px">
-			<h3>
+		<div align="center" height: 15px; margin-bottom: 12px">
+			<h3 align="center">
 				<font color="red"><%=ServletUtility.getErrorMessage(request)%></font>
 			</h3>
-			<h3>
+			<h3 align="center">
 				<font color="green"><%=ServletUtility.getSuccessMessage(request)%></font>
 			</h3>
 		</div>

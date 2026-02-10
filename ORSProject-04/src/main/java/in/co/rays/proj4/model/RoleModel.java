@@ -125,19 +125,18 @@ public class RoleModel {
 		try {
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
-			PreparedStatement pstm = conn.prepareStatement("delete  from st_role where id=?");
-			pstm.setLong(1, bean.getId());
-			pstm.executeUpdate();
+			PreparedStatement pstmt = conn.prepareStatement("delete from st_role where id = ?");
+			pstmt.setLong(1, bean.getId());
+			pstmt.executeUpdate();
 			conn.commit();
-			conn.close();
+			pstmt.close();
 		} catch (Exception e) {
-			e.printStackTrace();
 			try {
 				conn.rollback();
 			} catch (Exception ex) {
-				throw new ApplicationException("exception : exception delete rollback exception");
+				throw new ApplicationException("Exception : Delete rollback exception " + ex.getMessage());
 			}
-			throw new ApplicationException("exception : exception in delete st_role");
+			e.printStackTrace();
 		} finally {
 			JDBCDataSource.closeconnection(conn);
 		}

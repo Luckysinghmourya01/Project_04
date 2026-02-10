@@ -15,10 +15,10 @@ public class TestRoleModel {
 	public static void main(String[] args) throws Exception {
 		//testAdd();
 		// testUpdate();
-		// testDelete();
+		 testDelete();
 		// testfindByPk();
 		// testfindByName();
-		TestSearch();
+		//TestSearch();
 	}
 
 	public static void testAdd() throws Exception {
@@ -60,8 +60,8 @@ public class TestRoleModel {
 		RoleBean bean = new RoleBean();
 		RoleModel model = new RoleModel();
 
-		bean.setId(1);
-		model.delete(bean);
+		bean.setId(2l);
+		  model.delete(bean);
 	}
 
 	public static void testfindByPk() throws ApplicationException {

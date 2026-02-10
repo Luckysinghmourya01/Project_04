@@ -25,7 +25,7 @@
 	<b>|</b>
 	<a href="StudentCtl">Add Student</a>
 	<b>|</b>
-	<a href="StudentListCtl">StudentListCtl</a>
+	<a href="StudentListCtl">StudentList</a>
 	<b>|</b>
 	<a href="MarksheetCtl">Add Marksheet</a>
 	<b>|</b>

@@ -23,7 +23,8 @@
 		scope="request"></jsp:useBean>
 
 	<div align="center">
-		<h1 align="center" style="margin-bottom:  -15px; color: navy;">User List</h1>
+		<h1 align="center" style="margin-bottom: -15px; color: navy;">User
+			List</h1>
 
 		<div style="height: 15px; margin-bottom: 12px">
 			<h3>
@@ -47,9 +48,9 @@
 				Iterator<UserBean> it = list.iterator();
 				if (list.size() != 0) {
 			%>
-			
-			  <input type="hidden" name="pageNo" value="<%=pageNo%>">
-            <input type="hidden" name="pageSize" value="<%=pageSize%>">
+
+			<input type="hidden" name="pageNo" value="<%=pageNo%>"> <input
+				type="hidden" name="pageSize" value="<%=pageSize%>">
 
 			<table style="width: 100%">
 				<tr>
@@ -116,8 +117,8 @@
 
 				<table style="width: 100%">
 					<tr>
-						<td style="width: 25%"><input type="submit"
-							name="operation" value="<%=UserListCtl.OP_PREVIOUS%>"
+						<td style="width: 25%"><input type="submit" name="operation"
+							value="<%=UserListCtl.OP_PREVIOUS%>"
 							<%=pageNo > 1 ? "" : "disabled"%>></td>
 
 						<td align="center" style="width: 25%"><input type="submit"
@@ -126,15 +127,16 @@
 						<td align="center" style="width: 25%"><input type="submit"
 							name="operation" value="<%=UserListCtl.OP_DELETE%>"></td>
 
-						<td align="right" sStyle="width: 25%"><input type="submit" name="operation"
-							value="<%=UserListCtl.OP_NEXT%>"  <%=nextListSize != 0 ? "" : "disabled"%>>
-						</td>
+						<td align="right" sStyle="width: 25%"><input type="submit"
+							name="operation" value="<%=UserListCtl.OP_NEXT%>"
+							<%=nextListSize != 0 ? "" : "disabled"%>></td>
 					</tr>
 
 				</table>
 
-<%}if(list.size()== 0){
-				
+				<%
+					}
+					if (list.size() == 0) {
 				%>
 				<table>
 					<tr>

@@ -161,9 +161,9 @@ public class UserCtl extends BaseCtl {
 			try {
 				long pk = model.add(bean);
 				ServletUtility.setSuccessMessage("User added sucessfully", request);
-				;
+				
 			} catch (DublicateRecordException e) {
-				ServletUtility.setBean(bean, request);
+				 ServletUtility.setBean(bean, request); 
 				ServletUtility.setErrorMessage("Record Already exist", request);
 				e.printStackTrace();
 			} catch (ApplicationException e) {

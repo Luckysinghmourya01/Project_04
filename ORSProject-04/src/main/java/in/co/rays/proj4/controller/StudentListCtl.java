@@ -67,7 +67,73 @@ public class StudentListCtl extends BaseCtl {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		ServletUtility.forword(getView(), request, response);
+		List list = null;
+		List next = null;
+		
+		int pageNo = DataUtility.getInt(request.getParameter("pageNo"));
+		  int pageSize = DataUtility.getInt(request.getParameter("pageSize"));
+		  
+		  pageNo = (pageNo == 0) ? 1 : pageNo;
+			pageSize = (pageSize == 0) ? DataUtility.getInt(PropertyReader.getValue("page.size")) : pageSize;
+			
+		StudentBean bean = (StudentBean)	populateBean(request);
+		StudentModel model = new StudentModel();
+		
+		String op = DataUtility.getString(request.getParameter("operation"));
+		String[] ids = request.getParameterValues("ids");
+
+		
+		try {
+			if (OP_SEARCH.equalsIgnoreCase(op) || "Next".equalsIgnoreCase(op) || "Previous".equalsIgnoreCase(op)) {
+				if (OP_SEARCH.equalsIgnoreCase(op)) {
+					pageNo = 1;
+				} else if (OP_NEXT.equalsIgnoreCase(op)) {
+					pageNo++;
+				} else if (OP_PREVIOUS.equalsIgnoreCase(op) && pageNo > 1) {
+					pageNo--;
+				}
+			} else if (OP_NEW.equalsIgnoreCase(op)) {
+				ServletUtility.redirect(ORSView.STUDENT_CTL, request, response);
+				return;
+			}if(OP_DELETE.equalsIgnoreCase(op)) {
+				pageNo = 1;
+				if(ids != null && ids.length > 0) {
+					StudentBean deleteBean  = new StudentBean();
+					for(String id : ids) {
+						deleteBean.setId(DataUtility.getInt(id));
+						model.delete(deleteBean);
+						ServletUtility.setSuccessMessage("Student deleted sucessfull", request);
+					}
+				}else if(OP_RESET.equalsIgnoreCase(op)) {
+					ServletUtility.redirect(ORSView.SUBJECT_LIST_CTL, request, response);
+					return;
+				}else if(OP_BACK.equalsIgnoreCase(op)) {
+					ServletUtility.redirect(ORSView.STUDENT_LIST_CTL, request, response);
+					return;
+				}
+			}
+			
+			 list = model.search(bean, pageNo, pageSize);
+			 next = model.search(bean, pageNo + 1, pageSize);
+
+			if (list == null || list.isEmpty()) {
+				ServletUtility.setErrorMessage("No record found", request);
+			}
+
+			ServletUtility.setList(list, request);
+			ServletUtility.setPageNo(pageNo, request);
+			ServletUtility.setPageSize(pageSize, request);
+			ServletUtility.setBean(bean, request);
+			request.setAttribute("nextListSize", next.size());
+
+			ServletUtility.forword(getView(), request, response);
+			
+		}catch(ApplicationException e) {
+			
+			e.printStackTrace();
+			ServletUtility.handleException(e, request, response);
+			return;
+		}
 	}
 
 	@Override
