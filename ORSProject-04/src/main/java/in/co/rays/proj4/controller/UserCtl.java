@@ -1,3 +1,4 @@
+
 package in.co.rays.proj4.controller;
 
 import java.io.IOException;
@@ -146,6 +147,7 @@ public class UserCtl extends BaseCtl {
 		ServletUtility.forword(getView(), request, response);
 	}
 
+	 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

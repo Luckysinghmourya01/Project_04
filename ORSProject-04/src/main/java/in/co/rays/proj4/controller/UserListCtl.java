@@ -56,6 +56,8 @@ public class UserListCtl extends BaseCtl {
 
 		try {
 			List<UserBean> list = model.search(bean, pageNo, pageSize);
+			
+				
 			List<UserBean> next = model.search(bean, pageNo + 1, pageSize);
 
 			if (list == null || list.isEmpty()) {
@@ -66,6 +68,8 @@ public class UserListCtl extends BaseCtl {
 			ServletUtility.setPageNo(pageNo, request);
 			ServletUtility.setPageSize(pageSize, request);
 			ServletUtility.setBean(bean, request);
+			
+			
 			request.setAttribute("nextListSize", next);
 
 			ServletUtility.forword(getView(), request, response);
