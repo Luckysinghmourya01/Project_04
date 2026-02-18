@@ -37,8 +37,10 @@ public class UserListCtl extends BaseCtl {
 		UserBean bean = new UserBean();
 
 		bean.setFirstName(DataUtility.getString(request.getParameter("firstName")));
+
 		bean.setLogin(DataUtility.getString(request.getParameter("login")));
 		bean.setRoleId(DataUtility.getLong(request.getParameter("roleId")));
+		bean.setLastName(DataUtility.getString(request.getParameter("lastName")));
 
 		return bean;
 	}
@@ -56,8 +58,7 @@ public class UserListCtl extends BaseCtl {
 
 		try {
 			List<UserBean> list = model.search(bean, pageNo, pageSize);
-			
-				
+
 			List<UserBean> next = model.search(bean, pageNo + 1, pageSize);
 
 			if (list == null || list.isEmpty()) {
@@ -68,8 +69,7 @@ public class UserListCtl extends BaseCtl {
 			ServletUtility.setPageNo(pageNo, request);
 			ServletUtility.setPageSize(pageSize, request);
 			ServletUtility.setBean(bean, request);
-			
-			
+
 			request.setAttribute("nextListSize", next);
 
 			ServletUtility.forword(getView(), request, response);
@@ -91,58 +91,55 @@ public class UserListCtl extends BaseCtl {
 
 		int pageNo = DataUtility.getInt(request.getParameter("pageNo"));
 		int pageSize = DataUtility.getInt(request.getParameter("pageSize"));
-		
-		
+
 		pageNo = (pageNo == 0) ? 1 : pageNo;
 		pageSize = (pageSize == 0) ? DataUtility.getInt(PropertyReader.getValue("page.size")) : pageSize;
 
-		
-	UserBean bean = (UserBean)	populateBean(request);
-	UserModel model = new UserModel();
-	
-	 String op = DataUtility.getString(request.getParameter("operation"));
-	 String[] ids = request.getParameterValues("ids");
-	 
-	 
-	 try {
-		 
-		 if(OP_SEARCH.equalsIgnoreCase(op) || "Next".equalsIgnoreCase(op) || "Previous".equalsIgnoreCase(op)) {
-			 
-			 if (OP_SEARCH.equalsIgnoreCase(op)) {
+		UserBean bean = (UserBean) populateBean(request);
+		UserModel model = new UserModel();
+
+		String op = DataUtility.getString(request.getParameter("operation"));
+		String[] ids = request.getParameterValues("ids");
+
+		try {
+
+			if (OP_SEARCH.equalsIgnoreCase(op) || "Next".equalsIgnoreCase(op) || "Previous".equalsIgnoreCase(op)) {
+
+				if (OP_SEARCH.equalsIgnoreCase(op)) {
 					pageNo = 1;
 				} else if (OP_NEXT.equalsIgnoreCase(op)) {
 					pageNo++;
 				} else if (OP_PREVIOUS.equalsIgnoreCase(op) && pageNo > 1) {
 					pageNo--;
 				}
-		 }else if(OP_NEW.equalsIgnoreCase(op)) {
-			 
-			 ServletUtility.redirect(ORSView.USER_CTL, request, response);
-			 return;
-		 }else if(OP_DELETE.equalsIgnoreCase(op)) {
-			 pageNo = 1;
-			 if(ids != null && ids.length > 0 ) {
-				 UserBean deleteBean = new UserBean();
-				 for(String id : ids) {
-					 deleteBean.setId(DataUtility.getInt(id));
-					 model.delete(deleteBean);
-					 ServletUtility.setSuccessMessage("User deleted sucessfully", request);
-				 }
-			 }else {
-				 ServletUtility.setErrorMessage("Selected at least one record", request);
-			 }
-		 }else if(OP_RESET.equalsIgnoreCase(op)) {
-			 
-			 ServletUtility.redirect(ORSView.USER_LIST_CTL, request, response);
-			 return;
-		 }else if(OP_BACK.equalsIgnoreCase(op)) {
-			 
-			 ServletUtility.redirect(ORSView.USER_LIST_CTL, request, response);
-			 return;
-		 }
-	 
-			 list = model.search(bean, pageNo, pageSize);
-			 next = model.search(bean, pageNo + 1, pageSize);
+			} else if (OP_NEW.equalsIgnoreCase(op)) {
+
+				ServletUtility.redirect(ORSView.USER_CTL, request, response);
+				return;
+			} else if (OP_DELETE.equalsIgnoreCase(op)) {
+				pageNo = 1;
+				if (ids != null && ids.length > 0) {
+					UserBean deleteBean = new UserBean();
+					for (String id : ids) {
+						deleteBean.setId(DataUtility.getInt(id));
+						model.delete(deleteBean);
+						ServletUtility.setSuccessMessage("User deleted sucessfully", request);
+					}
+				} else {
+					ServletUtility.setErrorMessage("Selected at least one record", request);
+				}
+			} else if (OP_RESET.equalsIgnoreCase(op)) {
+
+				ServletUtility.redirect(ORSView.USER_LIST_CTL, request, response);
+				return;
+			} else if (OP_BACK.equalsIgnoreCase(op)) {
+
+				ServletUtility.redirect(ORSView.USER_LIST_CTL, request, response);
+				return;
+			}
+
+			list = model.search(bean, pageNo, pageSize);
+			next = model.search(bean, pageNo + 1, pageSize);
 
 			if (list == null || list.isEmpty()) {
 				ServletUtility.setErrorMessage("Record not found", request);

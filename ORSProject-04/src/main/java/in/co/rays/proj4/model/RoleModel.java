@@ -203,7 +203,7 @@ public class RoleModel {
 		}
 		return bean;
 	}
-	
+
 	public List<RoleBean> list() throws ApplicationException {
 		return search(null, 0, 0);
 	}
@@ -211,18 +211,19 @@ public class RoleModel {
 	public List<RoleBean> search(RoleBean bean, int pageNo, int pageSize) throws ApplicationException {
 
 		StringBuffer sql = new StringBuffer("select * from st_role where 1=1");
+
 		if (bean != null) {
 			if (bean.getId() > 0) {
-				sql.append("and id=" + bean.getId());
+				sql.append(" and id = " + bean.getId());
 			}
 			if (bean.getName() != null && bean.getName().length() > 0) {
-				sql.append("and name like" + bean.getName() + "%");
+				sql.append(" and name like '" + bean.getName() + "%'");
 			}
 			if (bean.getDescription() != null && bean.getDescription().length() > 0) {
-				sql.append("and describtion like" + bean.getDescription() + "%");
+				sql.append(" and description like '" + bean.getDescription() + "%'");
 			}
 		}
-		
+
 		if (pageSize > 0) {
 			pageNo = (pageNo - 1) * pageSize;
 			sql.append(" limit " + pageNo + ", " + pageSize);
@@ -230,10 +231,11 @@ public class RoleModel {
 
 		Connection conn = null;
 		ArrayList<RoleBean> list = new ArrayList<RoleBean>();
+
 		try {
 			conn = JDBCDataSource.getConnection();
-			PreparedStatement pstm = conn.prepareStatement(sql.toString());
-			ResultSet rs = pstm.executeQuery();
+			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				bean = new RoleBean();
 				bean.setId(rs.getLong(1));
@@ -245,9 +247,10 @@ public class RoleModel {
 				bean.setModifieddatetime(rs.getTimestamp(7));
 				list.add(bean);
 			}
-			conn.close();
+			rs.close();
+			pstmt.close();
 		} catch (Exception e) {
-			throw new ApplicationException("exception : exception in getting search role");
+			throw new ApplicationException("Exception : Exception in search Role");
 		} finally {
 			JDBCDataSource.closeconnection(conn);
 		}

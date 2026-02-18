@@ -63,6 +63,22 @@ public class CourseCtl extends BaseCtl {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		long id = DataUtility.getLong(request.getParameter("id"));
+		CourseModel model = new CourseModel();
+
+		if (id > 0) {
+			try {
+				CourseBean bean = model.findByPk(id);
+				ServletUtility.setBean(bean, request);
+			} catch (ApplicationException e) {
+
+				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
+				return;
+			}
+		}
+
 		ServletUtility.forword(getView(), request, response);
 	}
 
@@ -72,9 +88,9 @@ public class CourseCtl extends BaseCtl {
 
 		String op = DataUtility.getString(request.getParameter("operation"));
 
-		CourseModel model = new CourseModel();
-
 		long id = DataUtility.getLong(request.getParameter("id"));
+
+		CourseModel model = new CourseModel();
 
 		if (OP_SAVE.equalsIgnoreCase(op)) {
 			CourseBean bean = (CourseBean) populateBean(request);
@@ -90,6 +106,26 @@ public class CourseCtl extends BaseCtl {
 				ServletUtility.handleException(e, request, response);
 				return;
 			}
+		} else if (OP_UPDATE.equalsIgnoreCase(op)) {
+			CourseBean bean = (CourseBean) populateBean(request);
+
+			try {
+				if (id > 0) {
+					model.update(bean);
+				}
+				ServletUtility.setBean(bean, request);
+				ServletUtility.setSuccessMessage("Course updated sucessfully", request);
+			} catch (DublicateRecordException e) {
+				ServletUtility.setErrorMessage("Record already exist", request);
+			} catch (ApplicationException e) {
+
+				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
+				return;
+			}
+		} else if (OP_CANCEL.equalsIgnoreCase(op)) {
+			ServletUtility.redirect(ORSView.COURSE_LIST_CTL, request, response);
+			return;
 		} else if (OP_RESET.equalsIgnoreCase(op)) {
 
 			ServletUtility.redirect(ORSView.COURSE_CTL, request, response);

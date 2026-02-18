@@ -82,6 +82,21 @@ public class CollegeCtl extends BaseCtl {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		long id = DataUtility.getLong(request.getParameter("id"));
+		CollageModel model = new CollageModel();
+
+		if (id > 0) {
+			try {
+				CollageBean bean = model.findByPk(id);
+				ServletUtility.setBean(bean, request);
+			} catch (ApplicationException e) {
+
+				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
+				return;
+			}
+		}
 		ServletUtility.forword(getView(), request, response);
 	}
 
@@ -91,28 +106,54 @@ public class CollegeCtl extends BaseCtl {
 
 		String op = request.getParameter("operation");
 
+		long id = DataUtility.getLong(request.getParameter("id"));
+
 		CollageModel model = new CollageModel();
-      if(OP_SAVE.equalsIgnoreCase(op)) {
-    	  
-    	CollageBean bean = (CollageBean)  populateBean(request);
-    	
-    	 try {
-    		 long pk = model.add(bean);
-    		 ServletUtility.setBean(bean, request);
-    		 ServletUtility.setSuccessMessage("Data is sucessfully Saved", request);
-    		
-		} catch (DublicateRecordException e) {
-			ServletUtility.setBean(bean, request);
-			ServletUtility.setErrorMessage("College Name is already exist", request);
-		} catch (ApplicationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (OP_SAVE.equalsIgnoreCase(op)) {
+
+			CollageBean bean = (CollageBean) populateBean(request);
+
+			try {
+				long pk = model.add(bean);
+				ServletUtility.setBean(bean, request);
+				ServletUtility.setSuccessMessage("Data is sucessfully Saved", request);
+
+			} catch (DublicateRecordException e) {
+				ServletUtility.setBean(bean, request);
+				ServletUtility.setErrorMessage("College Name is already exist", request);
+			} catch (ApplicationException e) {
+
+				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
+				return;
+			}
+		}
+		if (OP_UPDATE.equalsIgnoreCase(op)) {
+			CollageBean bean = (CollageBean) populateBean(request);
+
+			try {
+				if (id > 0) {
+					model.update(bean);
+				}
+				ServletUtility.setBean(bean, request);
+				ServletUtility.setSuccessMessage("College Update sucessfull", request);
+			} catch (DublicateRecordException e) {
+				ServletUtility.setBean(bean, request);
+				ServletUtility.setErrorMessage("Record already exist", request);
+
+			} catch (ApplicationException e) {
+
+				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
+				return;
+			}
+		} else if (OP_CANCEL.equalsIgnoreCase(op)) {
+			ServletUtility.redirect(ORSView.COLLEGE_LIST_CTL, request, response);
+			return;
+		} else if (OP_RESET.equalsIgnoreCase(op)) {
+			ServletUtility.redirect(ORSView.COLLEGECTL, request, response);
 			return;
 		}
-      }else if(OP_RESET.equalsIgnoreCase(op)) {
-    	  ServletUtility.redirect(ORSView.COLLEGECTL, request, response);
-    	  return;
-      }
 		ServletUtility.forword(getView(), request, response);
 	}
 

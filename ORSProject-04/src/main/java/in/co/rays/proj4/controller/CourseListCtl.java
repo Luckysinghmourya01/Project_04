@@ -123,11 +123,11 @@ public class CourseListCtl extends BaseCtl {
 				}
 
 			} else if (OP_RESET.equalsIgnoreCase(op)) {
-				ServletUtility.redirect(ORSView.COLLEGE_LIST_CTL, request, response);
+				ServletUtility.redirect(ORSView.COURSE_LIST_CTL, request, response);
 				return;
 
 			} else if (OP_BACK.equalsIgnoreCase(op)) {
-				ServletUtility.redirect(ORSView.COLLEGE_LIST_CTL, request, response);
+				ServletUtility.redirect(ORSView.COURSE_LIST_CTL, request, response);
 				return;
 			}
 

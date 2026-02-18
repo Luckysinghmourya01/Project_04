@@ -14,7 +14,6 @@ import in.co.rays.proj4.util.JDBCDataSource;
 
 public class CollageModel {
 
-	
 	public Integer nextPk() throws DatabaseException {
 		Connection conn = null;
 		int pk = 0;
@@ -61,7 +60,7 @@ public class CollageModel {
 			pstmt.setString(7, bean.getCreatedby());
 			pstmt.setString(8, bean.getModifiedby());
 			pstmt.setTimestamp(9, bean.getCreateddatetime());
-			pstmt.setTimestamp(10,bean.getModifieddatetime());
+			pstmt.setTimestamp(10, bean.getModifieddatetime());
 			pstmt.executeUpdate();
 			conn.commit();
 			pstmt.close();

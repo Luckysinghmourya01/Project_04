@@ -25,11 +25,11 @@ public class TestUserModel {
 		// testnext();
 		// testUpdate();
 		// testDelete();
-		// testFindbyPk();
+		 testFindbyPk();
 		// testFindbyLogin();
 		// testAuthenticate();
 		//testSearch();
-		testname2();
+		//testname2();
 	}
 
 	private static void testname2() throws ApplicationException {
@@ -116,7 +116,7 @@ public class TestUserModel {
 		UserBean bean = new UserBean();
 		UserModel model = new UserModel();
 
-		bean = model.findBypk(1L);
+		bean = model.findBypk(2L);
 		if (bean == null) {
 			System.out.println("fid by pk fail");
 		} else {

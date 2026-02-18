@@ -16,13 +16,23 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<%@ include file="Header.jsp"%>
+	 <%@ include file="Header.jsp"%> 
 	<div align="center">
-		<jsp:useBean id="bean" class="in.co.rays.proj4.bean.FacultyBean"
-			scope="request"></jsp:useBean>
+		<jsp:useBean id="bean" class="in.co.rays.proj4.bean.FacultyBean" scope="request"></jsp:useBean>
+		<h1 align="center" style="margin-bottom: -15; color: navy">
 
-		<h1 align="center"
-		 style="margin-bottom: -15; color: navy">Add Faculty</h1>
+			<%
+				if (bean != null && bean.getId() > 0) {
+			%>Update
+			<%
+				} else {
+			%>
+			Add
+			<%
+				}
+			%>
+			Faculty
+		</h1>
 
 		<form action="<%=ORSView.FACULTY_CTL%>" method="post">
 
@@ -31,7 +41,7 @@
 				List<Subjectbean> subjectList = (List<Subjectbean>) request.getAttribute("subjectList");
 				List<CourseBean> courseList = (List<CourseBean>) request.getAttribute("courseList");
 			%>
-			
+
 			<div style="height: 15px; margin-bottom: 12px">
 				<h3 align="center">
 					<font color="green"> <%=ServletUtility.getSuccessMessage(request)%>
@@ -42,7 +52,7 @@
 					</font>
 				</h3>
 			</div>
-			
+
 			<input type="hidden" name="id" value="<%=bean.getId()%>"> <input
 				type="hidden" name="createdby" value="<%=bean.getCreatedby()%>">
 			<input type="hidden" name="modifiedby"
@@ -53,7 +63,7 @@
 				value="<%=DataUtility.getTimestamp(bean.getModifieddatetime())%>">
 
 			<table>
-			
+
 				<tr>
 					<th align="left">First Name<span style="color: red">*</span></th>
 					<td><input type="text" name="firstName"
@@ -116,15 +126,28 @@
 				<tr>
 					<th align="left">Subject<span style="color: red">*</span></th>
 					<td><%=HtmlUtility.getList("subjectId", String.valueOf(bean.getSubjectId()), subjectList)%></td>
-					
+
 					<td style="position: fixed;"><font color="red"> <%=ServletUtility.getErrorMessage("subjectId", request)%></font></td>S
 				</tr>
-				
+
 				<tr>
-				<th></th>
-				<td><input type="submit" name="operation" value="<%=FacultyCtl.OP_SAVE%>">
-				<input type="submit" name="operation" value="<%=FacultyCtl.OP_RESET%>">
-				</td>
+					<th></th>
+					<%
+						if (bean != null && bean.getId() > 0) {
+					%>
+					<td><input type="submit" name="operation"
+						value="<%=FacultyCtl.OP_UPDATE%>"> <input type="submit"
+						name="operation" value="<%=FacultyCtl.OP_CANCEL%>"></td>
+					<%
+						} else {
+					%>
+
+					<td align="left" colspan="2"><input type="submit"
+						name="operation" value="<%=FacultyCtl.OP_SAVE%>"> <input
+						type="submit" name="operation" value="<%=FacultyCtl.OP_RESET%>"></td>
+					<%
+						}
+					%>
 				</tr>
 
 			</table>

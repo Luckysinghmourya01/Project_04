@@ -76,6 +76,21 @@ public class SubjectCtl extends BaseCtl {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		long id = DataUtility.getLong(request.getParameter("id"));
+
+		SubjectModel model = new SubjectModel();
+
+		if (id > 0) {
+			try {
+				Subjectbean bean = model.findByPk(id);
+				ServletUtility.setBean(bean, request);
+			} catch (ApplicationException e) {
+				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
+				return;
+			}
+		}
+
 		ServletUtility.forword(getView(), request, response);
 	}
 
@@ -84,6 +99,8 @@ public class SubjectCtl extends BaseCtl {
 			throws ServletException, IOException {
 
 		String op = DataUtility.getString(request.getParameter("operation"));
+
+		long id = DataUtility.getLong(request.getParameter("id"));
 
 		SubjectModel model = new SubjectModel();
 
@@ -106,6 +123,25 @@ public class SubjectCtl extends BaseCtl {
 
 				return;
 			}
+		} else if (OP_UPDATE.equalsIgnoreCase(op)) {
+			Subjectbean bean = (Subjectbean) populateBean(request);
+			try {
+				if (id > 0) {
+					model.update(bean);
+				}
+				ServletUtility.setBean(bean, request);
+				ServletUtility.setSuccessMessage("Subject updated successfully", request);
+			} catch (DublicateRecordException e) {
+				ServletUtility.setBean(bean, request);
+				ServletUtility.setErrorMessage("Subject Name already exists", request);
+			} catch (ApplicationException e) {
+				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
+				return;
+			}
+		} else if (OP_CANCEL.equalsIgnoreCase(op)) {
+			ServletUtility.redirect(ORSView.SUBJECT_LIST_CTL, request, response);
+			return;
 		} else if (OP_RESET.equalsIgnoreCase(op)) {
 			ServletUtility.redirect(ORSView.SUBJECT_CTL, request, response);
 			return;

@@ -29,20 +29,31 @@
 
 		<div align="center">
 
-			<h1>Add User</h1>
-			
+			<h1 align="center" style="margin-bottom: -15; color: navy">
+
+				<%
+					if (bean != null && bean.getId() > 0) {
+				%>Update<%
+					} else {
+				%>
+				Add<%
+					}
+				%>
+				User
+			</h1>
+
 			<div style="height: 15px; margin-bottom: 12px">
-			<h3 align="center">
-			<font color="red"><%=ServletUtility.getErrorMessage(request) %></font>
-			</h3>
-			
-			<H3 align="center">
+				<h3 align="center">
+					<font color="red"><%=ServletUtility.getErrorMessage(request)%></font>
+				</h3>
+
+				<H3 align="center">
 					<font color="green"> <%=ServletUtility.getSuccessMessage(request)%>
 					</font>
 				</H3>
 			</div>
-			
-			
+
+
 			<input type="hidden" name="id" value="<%=bean.getId()%>"> <input
 				type="hidden" name="createdby" value="<%=bean.getCreatedby()%>">
 			<input type="hidden" name="modifiedby"
@@ -69,8 +80,8 @@
 					<td><input type="text" name="lastName"
 						placeholder="Enter last name"
 						value="<%=DataUtility.getStringData(bean.getLastName())%>"></td>
-						
-						<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("lastName", request)%></font>
+
+					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("lastName", request)%></font>
 					</td>
 				</tr>
 				<tr>
@@ -78,10 +89,9 @@
 					<td><input type="text" name="login"
 						placeholder="Enter Email Id"
 						value="<%=DataUtility.getStringData(bean.getLogin())%>"></td>
-						
-						<td style="position: fixed;">
-						<font color="red"><%=ServletUtility.getErrorMessage("login", request) %></font>
-						</td>
+
+					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("login", request)%></font>
+					</td>
 				</tr>
 
 				</tr>
@@ -91,10 +101,9 @@
 					<td><input type="password" name="password"
 						placeholder="Enter Password"
 						value="<%=DataUtility.getStringData(bean.getPassword())%>"></td>
-						
-						<td style="position: fixed;">
-						<font color="red"><%=ServletUtility.getErrorMessage("password", request) %></font>
-						</td>
+
+					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("password", request)%></font>
+					</td>
 				</tr>
 
 				<tr>
@@ -102,10 +111,9 @@
 					<td><input type="password" name="confirmPassword"
 						placeholder="Enter Confirm Password"
 						value="<%=DataUtility.getStringData(bean.getPassword())%>"></td>
-						
-						<td style="position: fixed;">
-						<font color="red"><%=ServletUtility.getErrorMessage("confirmPassword", request) %></font>
-						</td>
+
+					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("confirmPassword", request)%></font>
+					</td>
 				</tr>
 
 				<tr>
@@ -114,10 +122,8 @@
 					<td><input type="text" name="dob"
 						placeholder="Select Date of Birth"
 						value="<%=DataUtility.getStringData(bean.getDob())%>">
-						
-						<td style="position: fixed;">
-						<font color="red"><%=ServletUtility.getErrorMessage("dob", request) %></font>
-						</td>
+					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("dob", request)%></font>
+					</td>
 				</tr>
 
 				<tr>
@@ -133,19 +139,17 @@
 						%> <%=htmlList%>
 
 					</td>
-					
-					<td style="position: fixed;">
-						<font color="red"><%=ServletUtility.getErrorMessage("gender", request) %></font>
-						</td>
+
+					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("gender", request)%></font>
+					</td>
 				</tr>
 
 				<tr>
 					<th align="left">Role<span style="color: red">*</span></th>
 					<td><%=HtmlUtility.getList("roleId", String.valueOf(bean.getRoleId()), roleList)%></td>
-					
-					<td style="position: fixed;">
-						<font color="red"><%=ServletUtility.getErrorMessage("roleId", request) %></font>
-						</td>
+
+					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("roleId", request)%></font>
+					</td>
 				</tr>
 
 				<tr>
@@ -153,19 +157,30 @@
 					<td><input type="text" name="mobileNo" maxlength="10"
 						placeholder="Enter Mobile No"
 						value="<%=DataUtility.getStringData(bean.getMobileNo())%>"></td>
-						
-						<td style="position: fixed;">
-						<font color="red"><%=ServletUtility.getErrorMessage("mobileNo", request) %></font>
-						</td>
+
+					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("mobileNo", request)%></font>
+					</td>
 				</tr>
 				<tr>
 					<th>
-					<td align="left" colspan="2"><input type="submit"
-						name="operation" value="<%=UserCtl.OP_SAVE%>"> <input
-						type="submit" name="operation" value="<%=UserCtl.OP_RESET%>">
-					</td>
-					</th>
+						<%
+							if (bean != null && bean.getId() > 0) {
+						%>
+					
+					<td><input type="submit" name="operation"
+						value="<%=UserCtl.OP_UPDATE%>"> <input type="submit"
+						name="operation" value="<%=UserCtl.OP_CANCEL%>"></td>
+					<%
+						} else {
+					%>
+					<td><input type="submit" name="operation"
+						value="<%=UserCtl.OP_SAVE%>"> <input type="submit"
+						name="operation" value="<%=UserCtl.OP_RESET%>"></td>
+					<%
+						}
+					%>
 				</tr>
+				
 			</table>
 		</div>
 	</form>

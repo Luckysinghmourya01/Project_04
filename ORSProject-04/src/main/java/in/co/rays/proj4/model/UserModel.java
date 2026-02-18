@@ -1,10 +1,11 @@
-package in.co.rays.proj4.model;
+ package in.co.rays.proj4.model;
 
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.mysql.cj.jdbc.JdbcConnection;
@@ -16,6 +17,9 @@ import in.co.rays.proj4.exception.ApplicationException;
 import in.co.rays.proj4.exception.DatabaseException;
 import in.co.rays.proj4.exception.DublicateRecordException;
 import in.co.rays.proj4.exception.RecordNotFoundException;
+import in.co.rays.proj4.util.EmailBuilder;
+import in.co.rays.proj4.util.EmailMessage;
+import in.co.rays.proj4.util.EmailUtility;
 import in.co.rays.proj4.util.JDBCDataSource;
 
 public class UserModel {
@@ -147,7 +151,7 @@ public class UserModel {
 			e.printStackTrace();
 			try {
 				conn.rollback();
-			} catch (Exception ex) {	
+			} catch (Exception ex) {
 				throw new ApplicationException("Exception : Delete rollback exception " + ex.getMessage());
 			}
 			throw new ApplicationException("Exception in updating User ");
@@ -269,11 +273,12 @@ public class UserModel {
 		return bean;
 	}
 
-	public List<UserBean>list() throws ApplicationException {
+	public List<UserBean> list() throws ApplicationException {
 		return search(null, 0, 0);
 	}
 
-	public List search(UserBean bean, int pageNo, int pageSize) throws ApplicationException {
+	public List<UserBean> search(UserBean bean, int pageNo, int pageSize) throws ApplicationException {
+
 		Connection conn = null;
 		ArrayList<UserBean> list = new ArrayList<UserBean>();
 
@@ -281,19 +286,19 @@ public class UserModel {
 
 		if (bean != null) {
 			if (bean.getId() > 0) {
-				sql.append("and id=" + bean.getId());
+				sql.append(" and id = " + bean.getId());
 			}
 			if (bean.getFirstName() != null && bean.getFirstName().length() > 0) {
-				sql.append("and first_name like" + bean.getFirstName());
+				sql.append(" and first_name like '" + bean.getFirstName() + "%'");
 			}
 			if (bean.getLastName() != null && bean.getLastName().length() > 0) {
-				sql.append("and last_name like" + bean.getLastName());
+				sql.append(" and last_name like '" + bean.getLastName() + "%'");
 			}
 			if (bean.getLogin() != null && bean.getLogin().length() > 0) {
-				sql.append("and login" + bean.getLogin());
+				sql.append(" and login like '" + bean.getLogin() + "%'");
 			}
 			if (bean.getPassword() != null && bean.getPassword().length() > 0) {
-				sql.append("and password" + bean.getPassword());
+				sql.append(" and password like '" + bean.getPassword() + "%'");
 			}
 			if (bean.getDob() != null && bean.getDob().getDate() > 0) {
 				sql.append(" and dob = " + bean.getDob());
@@ -301,27 +306,23 @@ public class UserModel {
 			if (bean.getMobileNo() != null && bean.getMobileNo().length() > 0) {
 				sql.append(" and mobile_no = " + bean.getMobileNo());
 			}
-
-			
-			/*
-			 * if (bean.getRoleId() > 0) { sql.append(" and role_id = " + bean.getRoleId());
-			 */
-			 
-
+			if (bean.getRoleId() > 0) {
+				sql.append(" and role_id = " + bean.getRoleId());
+			}
 			if (bean.getGender() != null && bean.getGender().length() > 0) {
 				sql.append(" and gender like '" + bean.getGender() + "%'");
 			}
 		}
-			
-			if (pageSize > 0) {
-				pageNo = (pageNo - 1) * pageSize;
-				sql.append(" limit " + pageNo + ", " + pageSize);
-			}
+
+		if (pageSize > 0) {
+			pageNo = (pageNo - 1) * pageSize;
+			sql.append(" limit " + pageNo + ", " + pageSize);
+		}
 
 		try {
 			conn = JDBCDataSource.getConnection();
-			PreparedStatement pstm = conn.prepareStatement(sql.toString());
-			ResultSet rs = pstm.executeQuery();
+			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				bean = new UserBean();
 				bean.setId(rs.getLong(1));
@@ -339,34 +340,106 @@ public class UserModel {
 				bean.setModifieddatetime(rs.getTimestamp(13));
 				list.add(bean);
 			}
-			pstm.close();
+			rs.close();
+			pstmt.close();
 		} catch (Exception e) {
-			throw new ApplicationException("exception : exception is getting user search");
+			throw new ApplicationException("Exception : Exception in search user");
 		} finally {
 			JDBCDataSource.closeconnection(conn);
 		}
 		return list;
 	}
-	
-	public boolean changePssword(long id , String oldPassword , String newPassword) throws ApplicationException, RecordNotFoundException {
-		
-		
-		
+
+	public boolean changePassword(Long id, String oldPassword, String newPassword)
+			throws RecordNotFoundException, ApplicationException {
+
+		boolean flag = false;
+
 		UserBean beanExist = findBypk(id);
-		
-		if(beanExist != null && beanExist.getPassword().equals(oldPassword)) {
+
+		if (beanExist != null && beanExist.getPassword().equals(oldPassword)) {
 			beanExist.setPassword(newPassword);
 			try {
 				update(beanExist);
-			
-				
-			}catch(DublicateRecordException e) {
+				flag = true;
+			} catch (DublicateRecordException e) {
 				throw new ApplicationException("Login Id already exist");
 			}
+		} else {
+			throw new RecordNotFoundException("Old Password is Invalid");
 		}
-		else {
-			throw new RecordNotFoundException("Old password is Invalid");
+
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("login", beanExist.getLogin());
+		map.put("password", beanExist.getPassword());
+		map.put("firstName", beanExist.getFirstName());
+		map.put("lastName", beanExist.getLastName());
+
+		String message = EmailBuilder.getChangePasswordMessage(map);
+
+		EmailMessage msg = new EmailMessage();
+		msg.setTo(beanExist.getLogin());
+		msg.setSubject("ORSProject-04 Password has been changed Successfully.");
+		msg.setMessage(message);
+		msg.setMessageType(EmailMessage.HTML_MSG);
+
+		EmailUtility.sendMail(msg);
+
+		return flag;
+	}
+	
+	public boolean forgetPassword(String login) throws RecordNotFoundException, ApplicationException {
+
+		UserBean userData = findByLogin(login);
+		boolean flag = false;
+
+		if (userData == null) {
+			throw new RecordNotFoundException("Email ID does not exists..!!");
 		}
-		return  false;
+
+		try {
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("login", userData.getLogin());
+			map.put("password", userData.getPassword());
+			map.put("firstName", userData.getFirstName());
+			map.put("lastName", userData.getLastName());
+
+			String message = EmailBuilder.getForgetPasswordMessage(map);
+
+			EmailMessage msg = new EmailMessage();
+			msg.setTo(login);
+			msg.setSubject("ORSProject-04 Password Reset");
+			msg.setMessage(message);
+			msg.setMessageType(EmailMessage.HTML_MSG);
+
+			EmailUtility.sendMail(msg);
+			flag = true;
+		} catch (Exception e) {
+			throw new ApplicationException("Please check your internet connection..!!");
+		}
+		return flag;
+}
+	
+	
+	public long registerUser(UserBean bean) throws DublicateRecordException, ApplicationException {
+
+		long pk = add(bean);
+
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("login", bean.getLogin());
+		map.put("password", bean.getPassword());
+
+		String message = EmailBuilder.getUserRegisterationMessage(map);
+
+		EmailMessage msg = new EmailMessage();
+
+		msg.setTo(bean.getLogin());
+		msg.setSubject("Registration is successful for ORSProject-04");
+		msg.setMessage(message);
+		msg.setMessageType(EmailMessage.HTML_MSG);
+
+		EmailUtility.sendMail(msg);
+
+		return pk;
 	}
 }

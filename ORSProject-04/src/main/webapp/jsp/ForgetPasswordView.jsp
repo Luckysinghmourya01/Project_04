@@ -1,0 +1,42 @@
+<%@page import="in.co.rays.proj4.util.ServletUtility"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="<%=ORSView.FORGET_PASSWORD_CTL%>" method="post">
+	<%@include file="Header.jsp"%>
+	<jsp:useBean id="bean" class="in.co.rays.proj4.bean.UserBean"
+		scope="request"></jsp:useBean>
+
+	<div align="center">
+
+		<h1 align="center" style="margin-bottom: -15; color: navy">Forgot
+			your password</h1>
+
+		<div style="height: 15px; margin-bottom: 12px">
+			<h3 align="center">
+				<font color="green"> <%=ServletUtility.getSuccessMessage(request)%>
+				</font>
+			</h3>
+			<h3 align="center">
+				<font color="red"> <%=ServletUtility.getErrorMessage(request)%>
+				</font>
+			</h3>
+		</div>
+
+     <input type="hidden" name="id" value="<%=bean.getId()%>">
+     
+      <h3 style="margin-bottom: -10;">
+                <label>Submit your email address and we'll send you password.</label>
+            </h3>
+            
+            <
+	</div>
+	</form>
+</body>
+</html>
