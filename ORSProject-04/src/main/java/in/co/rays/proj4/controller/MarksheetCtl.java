@@ -195,6 +195,7 @@ public class MarksheetCtl extends BaseCtl {
 			return;
 		} else if (OP_RESET.equalsIgnoreCase(op)) {
 			ServletUtility.redirect(ORSView.MARKSHEET_CTL, request, response);
+			return;
 		}
 
 		ServletUtility.forword(getView(), request, response);

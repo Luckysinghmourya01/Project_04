@@ -71,6 +71,18 @@ public interface ORSView {
 	public String FACULTY_LIST_VIEW = PAGE_FOLDER +"/FacultyListView.jsp";
 	public String FACULTY_LIST_CTL = APP_CONTEXT +"/FacultyListCtl";
 	
+	public String MARKSHEET_MERIT_LIST_VIEW = PAGE_FOLDER + "/MarksheetMeritListView.jsp";
+	public String MARKSHEET_MERIT_LIST_CTL = APP_CONTEXT + "/MarksheetMeritListCtl";
+	
+	public String CHANGE_PASSWORD_VIEW = PAGE_FOLDER +"/ChangePasswordView.jsp";
+	public String CHANGE_PASSWORD_CTL = APP_CONTEXT +"/ChangePasswordCtl";
+	
+	public String BANNER_VIEW = PAGE_FOLDER +"/BannerView.jsp";
+	public String BANNER_CTL = APP_CONTEXT +"/BannerCtl";
+	
+	public String BANNER_LIST_VIEW = PAGE_FOLDER +"/BannerListView.jsp";
+	public String BANNER_LIST_CTL = APP_CONTEXT +"/BannerListCtl";
+	
 	
 	
 	

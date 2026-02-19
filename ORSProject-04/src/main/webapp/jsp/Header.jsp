@@ -19,15 +19,20 @@
 		if (user != null) {
 	%>
 
-	<h3>hi, 
-	<%=user.getFirstName() %>
-	(<%=session.getAttribute("role") %>	)
-	
-	</h3>
+	<h3>
+		hi,
+		<%=user.getFirstName()%>
+		(<%=session.getAttribute("role")%>
+		)
 
+	</h3>
+	<a href="ChangePasswordCtl"><b>Change Password</b></a>
+	<b>|</b>
+	<a href="MarksheetMeritListCtl">MarksheetMeritList</a>
+	<b>|</b>
 	<a href="RoleCtl"><b>Add Role</b></a>
 	<b>|</b>
-	<a href="RoleListCtl">Role List</a>
+	<a href="RoleListCtl"><b>Role List</b></a>
 	<b>|</b>
 	<a href="UserCtl">Add User</a>
 	<b>|</b>
@@ -58,6 +63,10 @@
 	<a href="FacultyCtl">Add Faculty</a>
 	<b>|</b>
 	<a href="FacultyListCtl">Faculty List</a>
+	<b>|</b>
+	<a href="BannerCtl">Add Banner</a>
+	<b>|</b>
+	<a href="BannerListCtl">Banner List</a>
 	<b>|</b>
 	<a href="LoginCtl?operation=<%=LoginCtl.OP_LOG_OUT%>"><b>Logout</b></a>
 	<%
