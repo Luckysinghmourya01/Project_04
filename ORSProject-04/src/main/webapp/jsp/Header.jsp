@@ -28,15 +28,17 @@
 	</h3>
 	<a href="ChangePasswordCtl"><b>Change Password</b></a>
 	<b>|</b>
-	<a href="MarksheetMeritListCtl">MarksheetMeritList</a>
+	<a href="MyProfileCtl"><b>My Profile</b></a>
+	<b>|</b>
+	<a href="MarksheetMeritListCtl"><b>MarksheetMeritList</b></a>
 	<b>|</b>
 	<a href="RoleCtl"><b>Add Role</b></a>
 	<b>|</b>
 	<a href="RoleListCtl"><b>Role List</b></a>
 	<b>|</b>
-	<a href="UserCtl">Add User</a>
+	<a href="UserCtl"><b>Add User</b></a>
 	<b>|</b>
-	<a href="UserListCtl">User List</a>
+	<a href="UserListCtl"><b>User List</b></a>
 	<b>|</b>
 	<a href="CollegeCtl">Add College</a>
 	<b>|</b>

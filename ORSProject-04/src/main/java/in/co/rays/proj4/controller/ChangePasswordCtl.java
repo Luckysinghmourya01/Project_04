@@ -120,10 +120,10 @@ public class ChangePasswordCtl extends BaseCtl {
 				ServletUtility.handleException(e, request, response);
 				return;
 			}
-		} /*
-			 * else if (OP_CHANGE_MY_PROFILE.equalsIgnoreCase(op)) {
-			 * ServletUtility.redirect(ORSView., request, response); return; }
-			 */
+		} 
+			  else if (OP_CHANGE_MY_PROFILE.equalsIgnoreCase(op)) {
+			  ServletUtility.redirect(ORSView.MY_PROFILE_CTL, request, response); return; }
+			 
 
 		ServletUtility.forword(getView(), request, response);
 	}
