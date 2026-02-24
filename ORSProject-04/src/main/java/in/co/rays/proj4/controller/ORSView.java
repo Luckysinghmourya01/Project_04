@@ -78,6 +78,9 @@ public interface ORSView {
 	public String MY_PROFILE_VIEW = PAGE_FOLDER + "/MyProfileView.jsp";
 	public String MY_PROFILE_CTL = APP_CONTEXT + "/MyProfileCtl";
 
+	public String GET_MARKSHEET_VIEW = PAGE_FOLDER + "/GetMarksheetView.jsp";
+	public String GET_MARKSHEET_CTL = APP_CONTEXT + "/GetMarksheetCtl";
+
 	public String BANNER_VIEW = PAGE_FOLDER + "/BannerView.jsp";
 	public String BANNER_CTL = APP_CONTEXT + "/BannerCtl";
 
@@ -89,5 +92,17 @@ public interface ORSView {
 
 	public String SUBSCRIPTION_LIST_VIEW = PAGE_FOLDER + "/SubscriptionListView.jsp";
 	public String SUBSCRIPTION_LIST_CTL = APP_CONTEXT + "/SubscriptionListCtl";
+
+	public String TICKET_VIEW = PAGE_FOLDER + "/TicketView.jsp";
+	public String TICKET_CTL = APP_CONTEXT + "/TicketCtl";
+
+	public String TICKET_LIST_VIEW = PAGE_FOLDER + "/TicketListView.jsp";
+	public String TICKET_LIST_CTL = APP_CONTEXT + "/TicketListCtl";
+
+	public String ATM_VIEW = PAGE_FOLDER + "/AtmView.jsp";
+	public String ATM_CTL = APP_CONTEXT + "/AtmCtl";
+
+	public String ATM_LIST_VIEW = PAGE_FOLDER + "/AtmListView.jsp";
+	public String ATM_LIST_CTL = APP_CONTEXT + "/AtmListCtl";
 
 }

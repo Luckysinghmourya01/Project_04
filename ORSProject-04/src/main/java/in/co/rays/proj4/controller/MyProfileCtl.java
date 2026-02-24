@@ -138,31 +138,32 @@ public class MyProfileCtl extends BaseCtl {
 		if (OP_SAVE.equalsIgnoreCase(op)) {
 
 			UserBean bean = (UserBean) populateBean(request);
+			try {
+				if (id > 0) {
 
-			if (id > 0) {
+					user.setFirstName(bean.getFirstName());
+					user.setLastName(bean.getLastName());
+					user.setGender(bean.getGender());
+					user.setMobileNo(bean.getMobileNo());
+					user.setDob(bean.getDob());
 
-				user.setFirstName(bean.getFirstName());
-				user.setLastName(bean.getLastName());
-				user.setGender(bean.getGender());
-				user.setMobileNo(bean.getMobileNo());
-				user.setDob(bean.getDob());
-				try {
 					model.update(user);
-					ServletUtility.setSuccessMessage("Profile updated sucessfully", request);
-					ServletUtility.setBean(bean, request);
-				} catch (DublicateRecordException e) {
-					ServletUtility.setBean(bean, request);
-					ServletUtility.setErrorMessage("Login Id already exist", request);
-				} catch (ApplicationException e) {
-
-					e.printStackTrace();
-					ServletUtility.handleException(e, request, response);
-					return;
 				}
-			} else if (OP_CHANGE_MY_PASSWORD.equalsIgnoreCase(op)) {
-				ServletUtility.redirect(ORSView.CHANGE_PASSWORD_CTL, request, response);
+				ServletUtility.setSuccessMessage("Profile updated sucessfully", request);
+				ServletUtility.setBean(bean, request);
+			} catch (DublicateRecordException e) {
+				ServletUtility.setBean(bean, request);
+				ServletUtility.setErrorMessage("Login Id already exist", request);
+			} catch (ApplicationException e) {
+
+				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
 				return;
 			}
+		} else if (OP_CHANGE_MY_PASSWORD.equalsIgnoreCase(op)) {
+			ServletUtility.redirect(ORSView.CHANGE_PASSWORD_CTL, request, response);
+			return;
+
 		}
 
 		ServletUtility.forword(getView(), request, response);

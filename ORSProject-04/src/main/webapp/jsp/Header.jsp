@@ -26,11 +26,13 @@
 		)
 
 	</h3>
-	<a href="ChangePasswordCtl"><b>Change Password</b></a>
-	<b>|</b>
 	<a href="MyProfileCtl"><b>My Profile</b></a>
 	<b>|</b>
+	<a href="ChangePasswordCtl"><b>Change Password</b></a>
+	<b>|</b>
 	<a href="MarksheetMeritListCtl"><b>MarksheetMeritList</b></a>
+	<b>|</b>
+	<a href="GetMarksheetCtl"><b>Get Marksheet</b></a>
 	<b>|</b>
 	<a href="RoleCtl"><b>Add Role</b></a>
 	<b>|</b>
@@ -70,6 +72,8 @@
 	<b>|</b>
 	<a href="BannerListCtl">Banner List</a>
 	<b>|</b>
+	<a href="AtmCtl">Add Atm</a>
+	<a href="AtmListCtl">Atm List</a>
 	<a href="LoginCtl?operation=<%=LoginCtl.OP_LOG_OUT%>"><b>Logout</b></a>
 	<%
 		} else {
