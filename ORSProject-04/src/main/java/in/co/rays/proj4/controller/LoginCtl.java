@@ -18,20 +18,20 @@ import in.co.rays.proj4.util.DataUtility;
 import in.co.rays.proj4.util.DataValidator;
 import in.co.rays.proj4.util.PropertyReader;
 import in.co.rays.proj4.util.ServletUtility;
+
 @WebServlet("/LoginCtl")
 public class LoginCtl extends BaseCtl {
-	
+
 	public static final String OP_REGISTER = "Register";
 	public static final String OP_SIGN_IN = "Sign In";
 	public static final String OP_SIGN_UP = "Sign Up";
 	public static final String OP_LOG_OUT = "Logout";
 
-	
 	@Override
 	protected boolean validate(HttpServletRequest request) {
 		boolean pass = true;
 		String op = request.getParameter("operation");
-		
+
 		if (OP_SIGN_UP.equals(op) || OP_LOG_OUT.equals(op)) {
 			return pass;
 		}
@@ -49,75 +49,77 @@ public class LoginCtl extends BaseCtl {
 		}
 		return pass;
 	}
-	
+
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
-		
+
 		UserBean bean = new UserBean();
 		bean.setId(DataUtility.getLong(request.getParameter("id")));
 		bean.setLogin(DataUtility.getString(request.getParameter("login")));
 		bean.setPassword(DataUtility.getString(request.getParameter("password")));
 		return bean;
 	}
-	
+
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		    HttpSession session =      request.getSession();
-		    
-		    String op = DataUtility.getString(request.getParameter("operation"));
-		    if(OP_LOG_OUT.equalsIgnoreCase(op)) {
-		    	session.invalidate();
-		    	ServletUtility.setErrorMessage("User Logout sucessfull", request);
-		    	ServletUtility.forword(getView(), request, response);
-		    	return;
-		    }
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		HttpSession session = request.getSession();
+
+		String op = DataUtility.getString(request.getParameter("operation"));
+		if (OP_LOG_OUT.equalsIgnoreCase(op)) {
+			session.invalidate();
+			ServletUtility.setSuccessMessage("User Logout Sucessfully", request);
+			ServletUtility.forword(getView(), request, response);
+			return;
+		}
 		ServletUtility.forword(getView(), request, response);
 	}
-	
+
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	HttpSession session = 	request.getSession();
-	
-	String op = DataUtility.getString(request.getParameter("operation"));
-	
-	RoleModel role = new RoleModel();
-	UserModel model = new UserModel();
-	
-	if(OP_SIGN_IN.equalsIgnoreCase(op)) {
-		 
-		UserBean bean = (UserBean)populateBean(request);
-		
-		try {
-		bean = 	model.authenticate(bean.getLogin(), bean.getPassword());
-		
-		if(bean != null) {
-			session.setAttribute("user", bean);
-			
-			RoleBean roleBean = role.findByPk(bean.getRoleId());
-			
-			if(roleBean != null) {
-				session.setAttribute("role", roleBean.getName()	);
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		HttpSession session = request.getSession();
+
+		String op = DataUtility.getString(request.getParameter("operation"));
+
+		RoleModel role = new RoleModel();
+		UserModel model = new UserModel();
+
+		if (OP_SIGN_IN.equalsIgnoreCase(op)) {
+
+			UserBean bean = (UserBean) populateBean(request);
+
+			try {
+				bean = model.authenticate(bean.getLogin(), bean.getPassword());
+
+				if (bean != null) {
+					session.setAttribute("user", bean);
+
+					RoleBean roleBean = role.findByPk(bean.getRoleId());
+
+					if (roleBean != null) {
+						session.setAttribute("role", roleBean.getName());
+					}
+					ServletUtility.redirect(ORSView.WELCOME_CTL, request, response);
+					return;
+				} else {
+					bean = (UserBean) populateBean(request);
+					ServletUtility.setBean(bean, request);
+					ServletUtility.setErrorMessage("Invalid Login and Password", request);
+				}
+			} catch (ApplicationException e) {
+
+				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
+				return;
 			}
-			ServletUtility.redirect(ORSView.WELCOME_CTL, request, response);
-			return;
-		}else {
-			bean = (UserBean)populateBean(request);
-			ServletUtility.setBean(bean, request);
-			ServletUtility.setErrorMessage("Invalid Login and Password", request);
-		}
-		} catch (ApplicationException e) {
-			
-			e.printStackTrace();
-			ServletUtility.handleException(e, request, response);
+		} else if (OP_SIGN_UP.equalsIgnoreCase(op)) {
+			ServletUtility.redirect(ORSView.USER_REGISTERATION_CTL, request, response);
 			return;
 		}
-	}else if(OP_SIGN_UP.equalsIgnoreCase(op)) {
-		ServletUtility.redirect(ORSView.USER_REGISTERATION_CTL, request, response);
-		return;
-	}
-		
+
 		ServletUtility.forword(getView(), request, response);
 	}
 

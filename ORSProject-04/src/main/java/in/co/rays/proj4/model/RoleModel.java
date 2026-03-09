@@ -14,8 +14,19 @@ import in.co.rays.proj4.exception.DatabaseException;
 import in.co.rays.proj4.exception.DublicateRecordException;
 import in.co.rays.proj4.util.JDBCDataSource;
 
+/**
+ * @author lucky singh mourya
+ * @version 1.0
+ *
+ */
 public class RoleModel {
 
+	/**
+	 * Returns next primary key value for st_role table.
+	 *
+	 * @return next primary key (Integer)
+	 * @throws DatabaseException if a database access error occurs
+	 */
 	public Integer nextPk() throws DatabaseException {
 
 		Connection conn = null;
@@ -37,8 +48,16 @@ public class RoleModel {
 		return pk + 1;
 	}
 
+	/**
+	 * Adds a new role record into database.
+	 *
+	 * @param bean RoleBean containing role data to add
+	 * @return primary key of newly inserted role
+	 * 
+	 * @throws ApplicationException if any SQL exception occurs while adding role
+	 *
+	 */
 	public long add(RoleBean bean) throws ApplicationException, DublicateRecordException {
-
 		Connection conn = null;
 		int pk = 0;
 

@@ -1,4 +1,5 @@
 
+
 package in.co.rays.proj4.controller;
 
 import java.io.IOException;
@@ -99,6 +100,14 @@ public abstract class BaseCtl extends HttpServlet {
 		}
 		super.service(request, response);
 	}
+	
+	
+	
+	
+	
+	
+	
+	 
 
 	protected abstract String getView();
 }

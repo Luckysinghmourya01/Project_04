@@ -15,7 +15,7 @@ import in.co.rays.proj4.model.CourseModel;
 import in.co.rays.proj4.util.DataUtility;
 import in.co.rays.proj4.util.PropertyReader;
 import in.co.rays.proj4.util.ServletUtility;
-@WebServlet("/CourseListCtl")
+@WebServlet(name = "CourseListCtl",urlPatterns = {"/ctl/CourseListCtl"})
 public class CourseListCtl extends BaseCtl {
 
 	@Override

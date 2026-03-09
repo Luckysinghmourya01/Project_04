@@ -16,11 +16,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<%@ include file="Header.jsp"%>
+	 <%@ include file="Header.jsp"%> 
 	<div align="center">
-		<jsp:useBean id="bean" class="in.co.rays.proj4.bean.FacultyBean"
-			scope="request"></jsp:useBean>
-
+		<jsp:useBean id="bean" class="in.co.rays.proj4.bean.FacultyBean" scope="request"></jsp:useBean>
 		<h1 align="center" style="margin-bottom: -15; color: navy">
 
 			<%

@@ -15,10 +15,10 @@ import in.co.rays.proj4.model.FacultyModel;
 import in.co.rays.proj4.util.DataUtility;
 import in.co.rays.proj4.util.PropertyReader;
 import in.co.rays.proj4.util.ServletUtility;
-@WebServlet("/FacultyListCtl")
+
+@WebServlet(name = "FacultyListCtl", urlPatterns = { "/ctl/FacultyListCtl" })
 public class FacultyListCtl extends BaseCtl {
 
-	
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
 		FacultyBean bean = new FacultyBean();
@@ -29,11 +29,11 @@ public class FacultyListCtl extends BaseCtl {
 
 		return bean;
 	}
-	
+
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		int pageNo = 1;
 		int pageSize = DataUtility.getInt(PropertyReader.getValue("page.size"));
 
@@ -60,9 +60,10 @@ public class FacultyListCtl extends BaseCtl {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		List list = null;
 		List next = null;
 
@@ -136,7 +137,7 @@ public class FacultyListCtl extends BaseCtl {
 			return;
 		}
 	}
-	
+
 	@Override
 	protected String getView() {
 		return ORSView.FACULTY_LIST_VIEW;

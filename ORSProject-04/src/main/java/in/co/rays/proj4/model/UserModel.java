@@ -1,4 +1,5 @@
- package in.co.rays.proj4.model;
+
+package in.co.rays.proj4.model;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -7,6 +8,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import org.apache.log4j.Logger;
 
 import com.mysql.cj.jdbc.JdbcConnection;
 import com.mysql.cj.protocol.Resultset;
@@ -23,6 +26,8 @@ import in.co.rays.proj4.util.EmailUtility;
 import in.co.rays.proj4.util.JDBCDataSource;
 
 public class UserModel {
+	
+	private static Logger log = Logger.getLogger(UserModel.class);
 
 	public Integer nextPk() throws DatabaseException {
 		Connection conn = null;
@@ -37,6 +42,7 @@ public class UserModel {
 			}
 			conn.close();
 		} catch (Exception e) {
+			log.error("exception is getting next pk" + e);
 			throw new DatabaseException("exception : exception in getting pk");
 		} finally {
 			JDBCDataSource.closeconnection(conn);

@@ -18,5 +18,6 @@
 	<font size="10px" color="navy"> Welcome to ORS</font>
 	</h1>
 	</form>
+	<%@include file="Footer.jsp" %>
 </body>
 </html>

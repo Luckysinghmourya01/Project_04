@@ -1,3 +1,5 @@
+<%@page import="in.co.rays.proj4.controller.LoginCtl"%>
+<%@page import="in.co.rays.proj4.bean.UserBean"%>
 <%@page import="in.co.rays.proj4.controller.ORSView"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -9,44 +11,78 @@
 </head>
 <body>
 
-	<h3>hi, guest</h3>
+	<%
+		UserBean user = (UserBean) session.getAttribute("user");
+	%>
 
-	<a href="RoleCtl"><b>Add Role</b></a>
+	<%
+		if (user != null) {
+	%>
+
+	<h3>
+		hi,
+		<%=user.getFirstName()%>
+		(<%=session.getAttribute("role")%>
+		)
+
+	</h3>
+	<a href="<%=ORSView.MY_PROFILE_CTL%>"><b>My Profile</b></a>
 	<b>|</b>
-	<a href="RoleListCtl">Role List</a>
+	<a href="<%=ORSView.CHANGE_PASSWORD_CTL%>"><b>Change Password</b></a>
 	<b>|</b>
-	<a href="UserCtl">Add User</a>
+	<a href="<%=ORSView.MARKSHEET_MERIT_LIST_CTL%>"><b>MarksheetMeritList</b></a>
 	<b>|</b>
-	<a href="UserListCtl">User List</a>
+	<a href="<%=ORSView.MARKSHEET_CTL%>"><b>Get Marksheet</b></a>
 	<b>|</b>
-	<a href="CollegeCtl">Add College</a>
+	<a href="<%=ORSView.ROLE_CTL%>"><b>Add Role</b></a>
 	<b>|</b>
-	<a href="CollegeListCtl">College List</a>
+	<a href="<%=ORSView.ROLE_LIST_CTL%>"><b>Role List</b></a>
 	<b>|</b>
-	<a href="StudentCtl">Add Student</a>
+	<a href="<%=ORSView.USER_CTL%>"><b>Add User</b></a>
 	<b>|</b>
-	<a href="StudentListCtl">StudentList</a>
+	<a href="<%=ORSView.USER_LIST_CTL%>"><b>User List</b></a>
 	<b>|</b>
-	<a href="MarksheetCtl">Add Marksheet</a>
+	<a href="<%=ORSView.COLLEGECTL%>"><b>Add College</b></a>
 	<b>|</b>
-	<a href="MarksheetListCtl">Marksheet List</a>
+	<a href="<%=ORSView.COLLEGE_LIST_CTL%>"><b>College List</b></a>
 	<b>|</b>
-	<a href="CourseCtl">Add Course</a>
+	<a href="<%=ORSView.STUDENT_CTL%>"><b>Add Student</b></a>
 	<b>|</b>
-	<a href="CourseListCtl">Course List</a>
+	<a href="<%=ORSView.STUDENT_LIST_CTL%>"><b>StudentList</b></a>
 	<b>|</b>
-	<a href="SubjectCtl">Add Subject</a>
+	<a href="<%=ORSView.MARKSHEET_CTL%>"><b>Add Marksheet</b></a>
 	<b>|</b>
-	<a href="SubjectListCtl">Subject List</a>
+	<a href="<%=ORSView.MARKSHEET_LIST_CTL%>"><b>Marksheet List</b></a>
 	<b>|</b>
-	<a href="TimetableCtl">Add Timetable</a>
+	<a href="<%=ORSView.COURSE_CTL%>"><b>Add Course</b></a>
 	<b>|</b>
-	<a href="FacultyCtl">Add Faculty</a>
+	<a href="<%=ORSView.COURSE_LIST_CTL%>"><b>Course List</b></a>
 	<b>|</b>
-	<a href="FacultyListCtl">Faculty List</a>
-	
+	<a href="<%=ORSView.SUBJECT_CTL%>"><b>Add Subject</b></a>
+	<b>|</b>
+	<a href="<%=ORSView.SUBJECT_LIST_CTL%>"><b>Subject List</b></a>
+	<b>|</b>
+	<a href="<%=ORSView.TIMETABLE_CTL%>"><b>Add Timetable</b></a>
+	<b>|</b>
+	<a href="<%=ORSView.FACULTY_CTL%>"><b>Add Faculty</b></a>
+	<b>|</b>
+	<a href="<%=ORSView.FACULTY_LIST_CTL%>"><b>Faculty List</b></a>
+	<b>|</b>
+	<a href="<%=ORSView.LOGIN_CTL %>?operation=<%=LoginCtl.OP_LOG_OUT%>"><b>Logout</b></a>
+
+
+	<%
+		} else {
+	%>
+	<h3>hi,Guest</h3>
+	<a href=<%=ORSView.WELCOME_CTL%>><b>Welcome</b></a>
+	<b>|</b>
+	<a href=<%=ORSView.LOGIN_CTL%>><b>Login</b></a>
+	<%
+		}
+	%>
 	<hr>
-	
+
 
 </body>
 </html>
