@@ -106,5 +106,8 @@ public interface ORSView {
 
 	public String ATM_LIST_VIEW = PAGE_FOLDER + "/AtmListView.jsp";
 	public String ATM_LIST_CTL = APP_CONTEXT + "/AtmListCtl";
+	
+	public String TRANSPORT_VIEW = PAGE_FOLDER +"/TransportView.jsp";
+	public String TRANSPORT_CTL = APP_CONTEXT +"/TransportCtl";
 
 }

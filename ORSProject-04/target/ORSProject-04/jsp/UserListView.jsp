@@ -83,6 +83,7 @@
 			<table border="1" style="width: 100%; border: groove;">
 				<tr style="background-color: #e1e6f1e3;">
 					<th width="5%"><input type="checkbox" id="selectall" /></th>
+
 					<th width="5%">S.No</th>
 					<th width="13%">First Name</th>
 					<th width="13%">Last Name</th>
@@ -106,7 +107,9 @@
 
 				<tr>
 					<td style="text-align: center;"><input type="checkbox"
-						class="case" name="ids" value="<%=bean.getId()%>"></td>
+						class="case" name="ids" value="<%=bean.getId()%>"
+						<%=(bean.getId() == user.getId() || bean.getRoleId() == RoleBean.ADMIN) ? "disabled" : ""%>>
+					</td>
 					<td style="text-align: center;"><%=index++%></td>
 					<td style="text-align: center; text-transform: capitalize;"><%=bean.getFirstName()%></td>
 					<td style="text-align: center; text-transform: capitalize;"><%=bean.getLastName()%></td>
@@ -116,7 +119,10 @@
 					<td style="text-align: center;"><%=date%></td>
 					<td style="text-align: center; text-transform: capitalize;"><%=roleBean.getName()%></td>
 					<td style="text-align: center;"><a
-						href="UserCtl?id=<%=bean.getId()%>">Edit</a></td>
+						href="UserCtl?id=<%=bean.getId()%>"
+						<%=user.getId() == bean.getId() || bean.getRoleId() == RoleBean.ADMIN
+							? "onclick='return false;'"
+							: ""%>>Edit</a></td>
 				</tr>
 
 				<%

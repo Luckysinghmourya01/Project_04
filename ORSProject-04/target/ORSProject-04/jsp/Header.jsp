@@ -8,6 +8,17 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+
+<!-- JQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+<script src="/ORSProject-04/js/checkbox.js"></script>
+<script src="/ORSProject-04/js/datepicker.js"></script>
+
+
 </head>
 <body>
 
@@ -32,7 +43,7 @@
 	<b>|</b>
 	<a href="<%=ORSView.MARKSHEET_MERIT_LIST_CTL%>"><b>MarksheetMeritList</b></a>
 	<b>|</b>
-	<a href="<%=ORSView.MARKSHEET_CTL%>"><b>Get Marksheet</b></a>
+	<a href="<%=ORSView.GET_MARKSHEET_CTL%>"><b>Get Marksheet</b></a>
 	<b>|</b>
 	<a href="<%=ORSView.ROLE_CTL%>"><b>Add Role</b></a>
 	<b>|</b>
@@ -68,7 +79,9 @@
 	<b>|</b>
 	<a href="<%=ORSView.FACULTY_LIST_CTL%>"><b>Faculty List</b></a>
 	<b>|</b>
-	<a href="<%=ORSView.LOGIN_CTL %>?operation=<%=LoginCtl.OP_LOG_OUT%>"><b>Logout</b></a>
+	<a href="<%=ORSView.JAVA_DOC%>">Java Doc</a>
+	<b>|</b>
+	<a href="<%=ORSView.LOGIN_CTL%>?operation=<%=LoginCtl.OP_LOG_OUT%>"><b>Logout</b></a>
 
 
 	<%

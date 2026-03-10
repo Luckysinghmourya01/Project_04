@@ -6,6 +6,7 @@ in\co\rays\proj4\controller\SubscriptionCtl.class
 in\co\rays\proj4\util\JDBCDataSource.class
 in\co\rays\proj4\controller\UserRegisterationCtl.class
 in\co\rays\proj4\controller\SubjectListCtl.class
+in\co\rays\proj4\bean\TransportBean.class
 in\co\rays\proj4\exception\DatabaseException.class
 in\co\rays\proj4\util\EmailBuilder.class
 in\co\rays\proj4\model\TicketModel.class
@@ -31,6 +32,7 @@ in\co\rays\proj4\test\TestCourseModel.class
 in\co\rays\proj4\controller\SubjectCtl.class
 in\co\rays\proj4\model\StudentModel.class
 in\co\rays\proj4\controller\LoginCtl.class
+in\co\rays\proj4\controller\TransportCtl.class
 in\co\rays\proj4\model\CollageModel.class
 in\co\rays\proj4\bean\PTicketbean.class
 in\co\rays\proj4\controller\CollegeListCtl.class
@@ -39,6 +41,7 @@ in\co\rays\proj4\test\testEmailUtility.class
 in\co\rays\proj4\controller\AtmListCtl.class
 in\co\rays\proj4\bean\Subjectbean.class
 in\co\rays\proj4\controller\StudentListCtl.class
+in\co\rays\proj4\model\TransportModel.class
 in\co\rays\proj4\test\testSubscription.class
 in\co\rays\proj4\controller\MyProfileCtl.class
 in\co\rays\proj4\model\UserModel.class
@@ -80,6 +83,7 @@ in\co\rays\proj4\model\BannerModel.class
 in\co\rays\proj4\controller\CourseListCtl.class
 in\co\rays\proj4\model\SubjectModel.class
 in\co\rays\proj4\bean\TimetableBean.class
+in\co\rays\proj4\test\TestLog4j.class
 in\co\rays\proj4\bean\BaseBean.class
 in\co\rays\proj4\util\EmailMessage.class
 in\co\rays\proj4\bean\SubscriptionBean.class

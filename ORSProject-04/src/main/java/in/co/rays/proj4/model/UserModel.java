@@ -26,7 +26,7 @@ import in.co.rays.proj4.util.EmailUtility;
 import in.co.rays.proj4.util.JDBCDataSource;
 
 public class UserModel {
-	
+
 	private static Logger log = Logger.getLogger(UserModel.class);
 
 	public Integer nextPk() throws DatabaseException {
@@ -42,7 +42,7 @@ public class UserModel {
 			}
 			conn.close();
 		} catch (Exception e) {
-			log.error("exception is getting next pk" + e);
+			log.debug("exception is getting next pk" + e);
 			throw new DatabaseException("exception : exception in getting pk");
 		} finally {
 			JDBCDataSource.closeconnection(conn);
@@ -51,6 +51,8 @@ public class UserModel {
 	}
 
 	public long add(UserBean bean) throws ApplicationException, DublicateRecordException {
+
+		log.debug("add() called");
 
 		Connection conn = null;
 		int pk = 0;
@@ -83,7 +85,12 @@ public class UserModel {
 			pstmt.executeUpdate();
 			conn.commit();
 			pstmt.close();
+
+			log.debug("User added successfully PK : " + pk);
+
 		} catch (Exception e) {
+
+			log.debug("Exception in add()", e);
 			try {
 				conn.rollback();
 			} catch (Exception ex) {
@@ -393,7 +400,7 @@ public class UserModel {
 
 		return flag;
 	}
-	
+
 	public boolean forgetPassword(String login) throws RecordNotFoundException, ApplicationException {
 
 		UserBean userData = findByLogin(login);
@@ -424,9 +431,8 @@ public class UserModel {
 			throw new ApplicationException("Please check your internet connection..!!");
 		}
 		return flag;
-}
-	
-	
+	}
+
 	public long registerUser(UserBean bean) throws DublicateRecordException, ApplicationException {
 
 		long pk = add(bean);

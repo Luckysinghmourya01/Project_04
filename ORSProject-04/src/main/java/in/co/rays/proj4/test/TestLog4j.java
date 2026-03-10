@@ -25,10 +25,6 @@ public class TestLog4j {
 		} catch (RuntimeException e) {
 
 			log.info("Arithmetic Error", e);
-			
-			
-			
-			
 
 		}
 	}

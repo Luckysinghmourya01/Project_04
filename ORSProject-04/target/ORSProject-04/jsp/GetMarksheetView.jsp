@@ -57,6 +57,7 @@
 
 			<%
 				StudentModel model = new StudentModel();
+			
 				long id = bean.getId();
 
 				StudentBean cbean = model.findByPk(id);
@@ -93,7 +94,7 @@
 					<td align="center" style="width: 15%">Status</td>
 					<th align="center" style="width: 35%">Regular</th>
 
-					<td align="center" style="width: 15%">Course</td> <
+					<td align="center" style="width: 15%">College</td> <
 					<th align="center" style="width: 25%; text-transform: uppercase;"><%=DataUtility.getStringData(cbean.getCollageName())%></th>
 
 				</tr>
