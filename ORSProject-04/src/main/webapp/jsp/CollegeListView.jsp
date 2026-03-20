@@ -118,7 +118,7 @@
             %>
             <table>
                 <tr>
-                    <td align="right">
+                    <td align="center">
                         <input type="submit" name="operation" value="<%=CollegeListCtl.OP_BACK%>">
                     </td>
                 </tr>

@@ -1,4 +1,4 @@
-<%@page import="in.co.rays.proj4.util.ServletUtility"%>
+    <%@page import="in.co.rays.proj4.util.ServletUtility"%>
 <%@page import="in.co.rays.proj4.util.HtmlUtility"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="in.co.rays.proj4.controller.UserCtl"%>
@@ -95,7 +95,12 @@
 				</tr>
 
 				</tr>
-
+				<%
+					if (bean != null && bean.getId() > 0) {
+				%>
+				<%
+					} else {
+				%>
 				<tr>
 					<th align="left">Password<span style="color: red">*</span></th>
 					<td><input type="password" name="password"
@@ -115,11 +120,13 @@
 					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("confirmPassword", request)%></font>
 					</td>
 				</tr>
-
+				<%
+					}
+				%>	
 				<tr>
 					<th align="left">Date of Birth<span style=""
 						width98%" style="color: red">*</span></th>
-					<td><input type="text" name="dob"
+					<td><input type="text"  name="dob" 
 						placeholder="Select Date of Birth"
 						value="<%=DataUtility.getStringData(bean.getDob())%>">
 					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("dob", request)%></font>
@@ -153,7 +160,7 @@
 				</tr>
 
 				<tr>
-					<th align="left">Mobile NO<span style="color: red"></span></th>
+					<th align="left">Mobile No<span style="color: red">*</span></th>
 					<td><input type="text" name="mobileNo" maxlength="10"
 						placeholder="Enter Mobile No"
 						value="<%=DataUtility.getStringData(bean.getMobileNo())%>"></td>
@@ -180,6 +187,36 @@
 						}
 					%>
 				</tr>
+
+				<%
+					if (bean != null && bean.getId() > 0) {
+				%>
+				<tr>
+
+					<td><input type="hidden" name="password"
+						placeholder="Enter Password"
+						value="<%=DataUtility.getStringData(bean.getPassword())%>"></td>
+
+					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("password", request)%></font>
+					</td>
+				</tr>
+
+				<tr>
+
+					<td><input type="hidden" name="confirmPassword"
+						placeholder="Enter Confirm Password"
+						value="<%=DataUtility.getStringData(bean.getPassword())%>"></td>
+
+					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("confirmPassword", request)%></font>
+					</td>
+				</tr>
+
+				<%
+					} else {
+				%>
+				<%
+					}
+				%>
 
 			</table>
 		</div>

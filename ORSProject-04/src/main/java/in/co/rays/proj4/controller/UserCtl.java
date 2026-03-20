@@ -180,8 +180,9 @@ public class UserCtl extends BaseCtl {
 			UserBean bean = (UserBean) populateBean(request);
 
 			try {
-				long pk = model.registerUser(bean);
+				long pk = model.add(bean);
 				ServletUtility.setSuccessMessage("User added sucessfully", request);
+				ServletUtility.setBean(bean, request);
 
 			} catch (DublicateRecordException e) {
 				ServletUtility.setBean(bean, request);
@@ -191,8 +192,8 @@ public class UserCtl extends BaseCtl {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return;
-			}
-		} else if (OP_UPDATE.equalsIgnoreCase(op)) {
+			}}
+		else if (OP_UPDATE.equalsIgnoreCase(op)) {
 			UserBean bean = (UserBean) populateBean(request);
 			
 			try {

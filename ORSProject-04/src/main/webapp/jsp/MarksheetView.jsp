@@ -65,14 +65,14 @@
 					<td><input type="text" name="rollNo"
 						placeholder="Enter Roll NO"
 						value="<%=DataUtility.getStringData(bean.getRollNo())%>"
-						<%=(bean.getId() > 0 ? "redonly" : "")%>></td>
-
+					<%=(bean.getId() > 0 ? "readonly" : "")%>></td>
+						
 					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("rollNo", request)%></font>
 					</td>
-				<tr>
+				
 				</tr>
 
-
+<tr>
 				<th align="left">Name<span style="color: red">*</span></th>
 				<td><%=HtmlUtility.getList("studentId", String.valueOf(bean.getStudentId()), studentList)%>
 				</td>

@@ -60,15 +60,23 @@
 						type="text" name="firstName" placeholder="Enter First Name"
 						value="<%=ServletUtility.getParameter("firstName", request)%>">&emsp;
 
-						<label align="center"><b>Last Name :</b></label><input type="text"
+						<%-- <label align="center"><b>Last Name :</b></label><input type="text"
 						name="lastName" placeholder="Enter Last Name"
-						value="<%=ServletUtility.getParameter("lastName", request)%>">
+						value="<%=ServletUtility.getParameter("lastName", request)%>"> --%>
+
+						<label align="center"><b>DOB:</b></label><input type="text"
+						name="dob" placeholder="Enter Dob"
+						value="<%=ServletUtility.getParameter("dob", request)%>">
 
 
 
 						<label><b>Login Id:</b></label> <input type="text" name="login"
 						placeholder="Enter Email ID"
 						value="<%=ServletUtility.getParameter("login", request)%>">&emsp;
+
+
+
+
 
 						<label><b>Role : </b></label> <%=HtmlUtility.getList("roleId", String.valueOf(bean.getRoleId()), roleList)%>&emsp;
 
@@ -141,12 +149,12 @@
 						<td align="center" style="width: 25%"><input type="submit"
 							name="operation" value="<%=UserListCtl.OP_DELETE%>"></td>
 
-						<td align="right" sStyle="width: 25%"><input type="submit"
+						<td align="right" Style="width: 25%"><input type="submit"
 							name="operation" value="<%=UserListCtl.OP_NEXT%>"
 							<%=nextListSize != 0 ? "" : "disabled"%>></td>
 					</tr>
 
-				</table>
+				</table> 
 
 				<%
 					}

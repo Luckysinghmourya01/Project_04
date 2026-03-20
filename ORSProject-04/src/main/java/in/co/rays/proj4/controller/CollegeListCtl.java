@@ -39,8 +39,14 @@ public class CollegeListCtl extends BaseCtl {
 		CollageBean bean = new CollageBean();
 
 		bean.setName(DataUtility.getString(request.getParameter("name")));
+		bean.setId(DataUtility.getLong(request.getParameter("collegeId")));
+		
+		
+		
+		
 		bean.setCity(DataUtility.getString(request.getParameter("city")));
-		bean.setId(DataUtility.getLong(request.getParameter("courseId")));
+		
+	
 
 		return bean;
 	}
@@ -132,6 +138,8 @@ public class CollegeListCtl extends BaseCtl {
 				return;
 			}
 			list = model.search(bean, pageNo, pageSize);
+			
+			System.out.println("vghhafsaa     " + list);
 			next = model.search(bean, pageNo + 1, pageSize);
 
 			if (list == null || list.isEmpty()) {

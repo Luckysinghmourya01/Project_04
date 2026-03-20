@@ -24,10 +24,12 @@
 
 	<%
 		UserBean user = (UserBean) session.getAttribute("user");
+	boolean loggedIn = user != null;
 	%>
 
+ <!-- Logged In view -->
 	<%
-		if (user != null) {
+		if (loggedIn) {
 	%>
 
 	<h3>

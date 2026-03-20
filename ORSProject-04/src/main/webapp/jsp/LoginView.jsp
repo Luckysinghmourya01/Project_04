@@ -46,8 +46,7 @@
 				<td><input type="text" name="login" placeholder="Enter Email Id"
 					value="<%=DataUtility.getStringData(bean.getLogin())%>"></td>
 
-				<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("login", request)%></font></td>
-			</tr>
+				<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("login", request)%></font></tr>
 			<tr>
 				<th align="left">Password<span  style="color: red">*</span></th>
 				<td><input type="text" name="password"

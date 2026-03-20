@@ -1,4 +1,4 @@
-package in.co.rays.proj4.controller;
+	package in.co.rays.proj4.controller;
 
 import java.io.IOException;
 
@@ -37,7 +37,7 @@ public class LoginCtl extends BaseCtl {
 		}
 
 		if (DataValidator.isNull(request.getParameter("login"))) {
-			request.setAttribute("login", PropertyReader.getValue("error.require", "Login Id"));
+			request.setAttribute("login", PropertyReader.getValue("error.require", "Login Id")); 
 			pass = false;
 		} else if (!DataValidator.isEmail(request.getParameter("login"))) {
 			request.setAttribute("login", PropertyReader.getValue("error.email", "Login "));

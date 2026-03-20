@@ -25,6 +25,10 @@ import in.co.rays.proj4.util.EmailMessage;
 import in.co.rays.proj4.util.EmailUtility;
 import in.co.rays.proj4.util.JDBCDataSource;
 
+/**
+ * @author lucky singh mourya
+ *
+ */
 public class UserModel {
 
 	private static Logger log = Logger.getLogger(UserModel.class);
@@ -307,7 +311,7 @@ public class UserModel {
 			if (bean.getLastName() != null && bean.getLastName().length() > 0) {
 				sql.append(" and last_name like '" + bean.getLastName() + "%'");
 			}
-			if (bean.getLogin() != null && bean.getLogin().length() > 0) {
+			 if (bean.getLogin() != null && bean.getLogin().length() > 0) {
 				sql.append(" and login like '" + bean.getLogin() + "%'");
 			}
 			if (bean.getPassword() != null && bean.getPassword().length() > 0) {

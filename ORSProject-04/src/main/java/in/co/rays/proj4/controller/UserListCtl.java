@@ -1,3 +1,4 @@
+
 package in.co.rays.proj4.controller;
 
 import java.io.IOException;
@@ -17,7 +18,7 @@ import in.co.rays.proj4.util.DataUtility;
 import in.co.rays.proj4.util.PropertyReader;
 import in.co.rays.proj4.util.ServletUtility;
 
-@WebServlet(name = "UserListCtl", urlPatterns = {"/ctl/UserListCtl"})
+@WebServlet(name = "UserListCtl", urlPatterns = { "/ctl/UserListCtl" })
 public class UserListCtl extends BaseCtl {
 
 	@Override
@@ -37,9 +38,11 @@ public class UserListCtl extends BaseCtl {
 		UserBean bean = new UserBean();
 
 		bean.setFirstName(DataUtility.getString(request.getParameter("firstName")));
+		bean.setDob(DataUtility.getDate(request.getParameter("dob")));
 
 		bean.setLogin(DataUtility.getString(request.getParameter("login")));
 		bean.setRoleId(DataUtility.getLong(request.getParameter("roleId")));
+
 		bean.setLastName(DataUtility.getString(request.getParameter("lastName")));
 
 		return bean;
@@ -109,8 +112,7 @@ public class UserListCtl extends BaseCtl {
 					pageNo = 1;
 				} else if (OP_NEXT.equalsIgnoreCase(op)) {
 					pageNo++;
-				} else if (OP_PREVIOUS
-						.equalsIgnoreCase(op) && pageNo > 1) {
+				} else if (OP_PREVIOUS.equalsIgnoreCase(op) && pageNo > 1) {
 					pageNo--;
 				}
 			} else if (OP_NEW.equalsIgnoreCase(op)) {
@@ -141,7 +143,8 @@ public class UserListCtl extends BaseCtl {
 
 			list = model.search(bean, pageNo, pageSize);
 			next = model.search(bean, pageNo + 1, pageSize);
-
+			System.out.println("next" + next);
+			
 			if (list == null || list.isEmpty()) {
 				ServletUtility.setErrorMessage("Record not found", request);
 
@@ -150,6 +153,7 @@ public class UserListCtl extends BaseCtl {
 			ServletUtility.setPageNo(pageNo, request);
 			ServletUtility.setPageSize(pageSize, request);
 			ServletUtility.setBean(bean, request);
+			
 			request.setAttribute("nextListSize", next);
 
 			ServletUtility.forword(getView(), request, response);
