@@ -33,7 +33,7 @@
 	%>
 
 	<h3>
-		hi,
+		Hi,
 		<%=user.getFirstName()%>
 		(<%=session.getAttribute("role")%>
 		)

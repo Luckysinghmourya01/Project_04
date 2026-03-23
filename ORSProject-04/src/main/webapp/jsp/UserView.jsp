@@ -85,7 +85,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th>Login ID<span style="color: red">*</span></th>
+					<th align="left">Login Id<span style="color: red">*</span></th>
 					<td><input type="text" name="login"
 						placeholder="Enter Email Id"
 						value="<%=DataUtility.getStringData(bean.getLogin())%>"></td>
@@ -124,11 +124,11 @@
 					}
 				%>	
 				<tr>
-					<th align="left">Date of Birth<span style=""
-						width98%" style="color: red">*</span></th>
+					<th align="left">Date of Birth<span 
+						 style="color: red; ">*</span></th>
 					<td><input type="text"  name="dob" 
 						placeholder="Select Date of Birth"
-						value="<%=DataUtility.getStringData(bean.getDob())%>">
+						value="<%=DataUtility.getDateString(bean.getDob())%>">
 					<td style="position: fixed;"><font color="red"><%=ServletUtility.getErrorMessage("dob", request)%></font>
 					</td>
 				</tr>

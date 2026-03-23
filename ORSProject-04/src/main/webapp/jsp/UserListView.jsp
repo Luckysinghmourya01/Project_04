@@ -17,7 +17,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
-</head>
+</head>	
 <body>
 
 	<%@ include file="Header.jsp"%>

@@ -128,9 +128,9 @@ public class UserCtl extends BaseCtl {
 		bean.setLastName(DataUtility.getString(request.getParameter("lastName")));
 		bean.setLogin(DataUtility.getString(request.getParameter("login")));
 		bean.setPassword(DataUtility.getString(request.getParameter("password")));
+		bean.setDob(DataUtility.getDate(request.getParameter("dob")));
 		bean.setConfirmPassword(DataUtility.getString(request.getParameter("confirmPassword")));
 		bean.setGender(DataUtility.getString(request.getParameter("gender")));
-		bean.setDob(DataUtility.getDate(request.getParameter("dob")));
 		bean.setMobileNo(DataUtility.getString(request.getParameter("mobileNo")));
 		bean.setRoleId(DataUtility.getLong(request.getParameter("roleId")));
 		populateDTO(bean, request);

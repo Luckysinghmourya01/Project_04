@@ -2,7 +2,6 @@
 package in.co.rays.proj4.model;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -11,10 +10,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.mysql.cj.jdbc.JdbcConnection;
-import com.mysql.cj.protocol.Resultset;
-
-import in.co.rays.proj4.bean.RoleBean;
 import in.co.rays.proj4.bean.UserBean;
 import in.co.rays.proj4.exception.ApplicationException;
 import in.co.rays.proj4.exception.DatabaseException;
@@ -169,6 +164,7 @@ public class UserModel {
 			try {
 				conn.rollback();
 			} catch (Exception ex) {
+				ex.printStackTrace();
 				throw new ApplicationException("Exception : Delete rollback exception " + ex.getMessage());
 			}
 			throw new ApplicationException("Exception in updating User ");
@@ -329,6 +325,7 @@ public class UserModel {
 			if (bean.getGender() != null && bean.getGender().length() > 0) {
 				sql.append(" and gender like '" + bean.getGender() + "%'");
 			}
+			System.out.println(sql.toString());
 		}
 
 		if (pageSize > 0) {

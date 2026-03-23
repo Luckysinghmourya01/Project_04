@@ -93,7 +93,7 @@ public class LoginCtl extends BaseCtl {
 
 			try {
 				bean = model.authenticate(bean.getLogin(), bean.getPassword());
-
+				
 				if (bean != null) {
 					session.setAttribute("user", bean);
 
