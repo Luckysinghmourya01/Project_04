@@ -17,7 +17,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
-</head>
+</head>	
 <body>
 
 	<%@ include file="Header.jsp"%>
@@ -60,16 +60,14 @@
 						type="text" name="firstName" placeholder="Enter First Name"
 						value="<%=ServletUtility.getParameter("firstName", request)%>">&emsp;
 
-						<%-- <label align="center"><b>Last Name :</b></label><input type="text"
+						<label align="center"><b>Last Name :</b></label><input type="text"
 						name="lastName" placeholder="Enter Last Name"
-						value="<%=ServletUtility.getParameter("lastName", request)%>"> --%>
-
-						<label align="center"><b>DOB:</b></label><input type="text"
-						name="dob" placeholder="Enter Dob"
-						value="<%=ServletUtility.getParameter("dob", request)%>">
+						value="<%=ServletUtility.getParameter("lastName", request)%>">
 
 
-
+						
+						
+						
 						<label><b>Login Id:</b></label> <input type="text" name="login"
 						placeholder="Enter Email ID"
 						value="<%=ServletUtility.getParameter("login", request)%>">&emsp;
@@ -143,18 +141,18 @@
 							value="<%=UserListCtl.OP_PREVIOUS%>"
 							<%=pageNo > 1 ? "" : "disabled"%>></td>
 
-						<td align="center" style="width: 25%"><input type="submit"
+		 				<td align="center" style="width: 25%"><input type="submit"
 							name="operation" value="<%=UserListCtl.OP_NEW%>"></td>
 
 						<td align="center" style="width: 25%"><input type="submit"
 							name="operation" value="<%=UserListCtl.OP_DELETE%>"></td>
 
-						<td align="right" Style="width: 25%"><input type="submit"
+						<td style="width: 25%" align="right"><input type="submit"
 							name="operation" value="<%=UserListCtl.OP_NEXT%>"
 							<%=nextListSize != 0 ? "" : "disabled"%>></td>
 					</tr>
 
-				</table> 
+				</table>
 
 				<%
 					}

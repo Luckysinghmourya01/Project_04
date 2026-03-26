@@ -214,82 +214,81 @@ public class CollageModel {
 		return search(null, 0, 0);
 	}
 
-	public List<CollageBean> search(CollageBean bean, int pageNo, int pageSize) 
-	        throws ApplicationException {
+	public List<CollageBean> search(CollageBean bean, int pageNo, int pageSize) throws ApplicationException {
 
-	    StringBuffer sql = new StringBuffer("select * from st_college where 1=1");
+		StringBuffer sql = new StringBuffer("select * from st_college where 1=1");
 
-	    if (bean != null) {
+		if (bean != null) {
 
-	        if (bean.getId() > 0) {
-	            sql.append(" and id = " + bean.getId());
-	        }
+			if (bean.getId() > 0) {
+				sql.append(" and id = " + bean.getId());
+			}
 
-	        if (bean.getName() != null && bean.getName().length() > 0) {
-	            sql.append(" and name like '" + bean.getName() + "%'");
-	        }
+			if (bean.getName() != null && bean.getName().length() > 0) {
+				sql.append(" and name like '" + bean.getName() + "%'");
+			}
 
-	        if (bean.getAddress() != null && bean.getAddress().length() > 0) {
-	            sql.append(" and address like '" + bean.getAddress() + "%'");
-	        }
+			if (bean.getAddress() != null && bean.getAddress().length() > 0) {
+				sql.append(" and address like '" + bean.getAddress() + "%'");
+			}
 
-	        if (bean.getState() != null && bean.getState().length() > 0) {
-	            sql.append(" and state like '" + bean.getState() + "%'");
-	        }
+			if (bean.getState() != null && bean.getState().length() > 0) {
+				sql.append(" and state like '" + bean.getState() + "%'");
+			}
 
-	        if (bean.getCity() != null && bean.getCity().length() > 0) {
-	            sql.append(" and city like '" + bean.getCity() + "%'");
-	        }
+			if (bean.getCity() != null && bean.getCity().length() > 0) {
+				sql.append(" and city like '" + bean.getCity() + "%'");
+			}
 
-	        if (bean.getPhoneNo() != null && bean.getPhoneNo().length() > 0) {
-	            sql.append(" and phone_no like '" + bean.getPhoneNo() + "%'");
-	        }
-	        
-	        System.out.println(sql.toString());
-	    }
+			if (bean.getPhoneNo() != null && bean.getPhoneNo().length() > 0) {
+				sql.append(" and phone_no like '" + bean.getPhoneNo() + "%'");
+			}
 
-	    if (pageSize > 0) {
-	        pageNo = (pageNo - 1) * pageSize;
-	        sql.append(" limit " + pageNo + "," + pageSize);
-	    }
-	    System.out.println(sql.toString());
+			System.out.println(sql.toString());
+		}
 
-	    ArrayList<CollageBean> list = new ArrayList<CollageBean>();
-	    Connection conn = null;
+		if (pageSize > 0) {
+			pageNo = (pageNo - 1) * pageSize;
+			sql.append(" limit " + pageNo + "," + pageSize);
+		}
+		System.out.println(sql.toString());
 
-	    try {
+		ArrayList<CollageBean> list = new ArrayList<CollageBean>();
+		Connection conn = null;
 
-	        conn = JDBCDataSource.getConnection();
-	        PreparedStatement pstmt = conn.prepareStatement(sql.toString());
-	        ResultSet rs = pstmt.executeQuery();
+		try {
 
-	        while (rs.next()) {
+			conn = JDBCDataSource.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+			ResultSet rs = pstmt.executeQuery();
 
-	            CollageBean dto = new CollageBean();
+			while (rs.next()) {
 
-	            dto.setId(rs.getLong(1));
-	            dto.setName(rs.getString(2));
-	            dto.setAddress(rs.getString(3));
-	            dto.setState(rs.getString(4));
-	            dto.setCity(rs.getString(5));
-	            dto.setPhoneNo(rs.getString(6));
-	            dto.setCreatedby(rs.getString(7));
-	            dto.setModifiedby(rs.getString(8));
-	            dto.setCreateddatetime(rs.getTimestamp(9));
-	            dto.setModifieddatetime(rs.getTimestamp(10));
+				CollageBean dto = new CollageBean();
 
-	            list.add(dto);
-	        }
+				dto.setId(rs.getLong(1));
+				dto.setName(rs.getString(2));
+				dto.setAddress(rs.getString(3));
+				dto.setState(rs.getString(4));
+				dto.setCity(rs.getString(5));
+				dto.setPhoneNo(rs.getString(6));
+				dto.setCreatedby(rs.getString(7));
+				dto.setModifiedby(rs.getString(8));
+				dto.setCreateddatetime(rs.getTimestamp(9));
+				dto.setModifieddatetime(rs.getTimestamp(10));
 
-	        rs.close();
-	        pstmt.close();
+				list.add(dto);
+			}
 
-	    } catch (Exception e) {
-	        throw new ApplicationException("Exception in search college");
-	    } finally {
-	        JDBCDataSource.closeconnection(conn);
-	    }
+			rs.close();
+			pstmt.close();
 
-	    return list;
+		} catch (Exception e) {
+			throw new ApplicationException("Exception in search college");
+		} finally {
+			JDBCDataSource.closeconnection(conn);
+		}
+
+		return list;
 	}
 }

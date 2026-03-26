@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.co.rays.proj4.bean.UserBean;
 import in.co.rays.proj4.bean.bannerBean;
 import in.co.rays.proj4.exception.ApplicationException;
 import in.co.rays.proj4.exception.DatabaseException;
@@ -171,6 +172,10 @@ public class BannerModel {
 
         return bean;
     }
+    
+    public List<bannerBean> list() throws ApplicationException {
+		return search(null, 0, 0);
+	}
 
     public List<bannerBean> search(bannerBean bean, int pageNo, int pageSize)
             throws ApplicationException {

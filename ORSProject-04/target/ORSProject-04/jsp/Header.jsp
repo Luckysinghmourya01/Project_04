@@ -1,3 +1,4 @@
+<%@page import="in.co.rays.proj4.bean.RoleBean"%>
 <%@page import="in.co.rays.proj4.controller.LoginCtl"%>
 <%@page import="in.co.rays.proj4.bean.UserBean"%>
 <%@page import="in.co.rays.proj4.controller.ORSView"%>
@@ -27,18 +28,21 @@
 	boolean loggedIn = user != null;
 	%>
 
- <!-- Logged In view -->
+	<!-- Logged In view -->
 	<%
 		if (loggedIn) {
 	%>
 
 	<h3>
-		hi,
+		Hi,
 		<%=user.getFirstName()%>
 		(<%=session.getAttribute("role")%>
 		)
 
 	</h3>
+
+	<!-- common menus -->
+
 	<a href="<%=ORSView.MY_PROFILE_CTL%>"><b>My Profile</b></a>
 	<b>|</b>
 	<a href="<%=ORSView.CHANGE_PASSWORD_CTL%>"><b>Change Password</b></a>
@@ -47,6 +51,11 @@
 	<b>|</b>
 	<a href="<%=ORSView.GET_MARKSHEET_CTL%>"><b>Get Marksheet</b></a>
 	<b>|</b>
+
+	<!-- Admin only -->
+
+	<% if (user.getRoleId() == RoleBean.ADMIN){ %>
+
 	<a href="<%=ORSView.ROLE_CTL%>"><b>Add Role</b></a>
 	<b>|</b>
 	<a href="<%=ORSView.ROLE_LIST_CTL%>"><b>Role List</b></a>
@@ -59,6 +68,13 @@
 	<b>|</b>
 	<a href="<%=ORSView.COLLEGE_LIST_CTL%>"><b>College List</b></a>
 	<b>|</b>
+
+	<%} %>
+
+	<!-- Faculty + admin view -->
+
+	<%if(user.getRoleId() == RoleBean.FACULTY || user.getRoleId() == RoleBean.ADMIN ){ %>
+
 	<a href="<%=ORSView.STUDENT_CTL%>"><b>Add Student</b></a>
 	<b>|</b>
 	<a href="<%=ORSView.STUDENT_LIST_CTL%>"><b>StudentList</b></a>
@@ -81,6 +97,9 @@
 	<b>|</b>
 	<a href="<%=ORSView.FACULTY_LIST_CTL%>"><b>Faculty List</b></a>
 	<b>|</b>
+
+	<%} 
+	%>
 	<a href="<%=ORSView.JAVA_DOC%>">Java Doc</a>
 	<b>|</b>
 	<a href="<%=ORSView.LOGIN_CTL%>?operation=<%=LoginCtl.OP_LOG_OUT%>"><b>Logout</b></a>

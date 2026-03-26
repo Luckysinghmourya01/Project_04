@@ -73,7 +73,7 @@ public class UserListCtl extends BaseCtl {
 			ServletUtility.setPageSize(pageSize, request);
 			ServletUtility.setBean(bean, request);
 
-			request.setAttribute("nextListSize", next);
+			request.setAttribute("nextListSize", next.size());
 
 			ServletUtility.forword(getView(), request, response);
 		} catch (ApplicationException e) {
@@ -143,7 +143,6 @@ public class UserListCtl extends BaseCtl {
 
 			list = model.search(bean, pageNo, pageSize);
 			next = model.search(bean, pageNo + 1, pageSize);
-			System.out.println("next" + next);
 			
 			if (list == null || list.isEmpty()) {
 				ServletUtility.setErrorMessage("Record not found", request);
@@ -154,7 +153,7 @@ public class UserListCtl extends BaseCtl {
 			ServletUtility.setPageSize(pageSize, request);
 			ServletUtility.setBean(bean, request);
 			
-			request.setAttribute("nextListSize", next);
+			request.setAttribute("nextListSize", next.size());
 
 			ServletUtility.forword(getView(), request, response);
 		} catch (ApplicationException e) {

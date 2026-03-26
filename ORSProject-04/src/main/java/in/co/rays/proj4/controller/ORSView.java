@@ -109,5 +109,8 @@ public interface ORSView {
 	
 	public String TRANSPORT_VIEW = PAGE_FOLDER +"/TransportView.jsp";
 	public String TRANSPORT_CTL = APP_CONTEXT +"/TransportCtl";
+	
+	public String CART_VIEW = PAGE_FOLDER +"/CartView.jsp";
+	public String CART_CTL = APP_CONTEXT +"/CartCtl";
 
 }

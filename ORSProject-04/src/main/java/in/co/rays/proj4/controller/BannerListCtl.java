@@ -20,6 +20,18 @@ import in.co.rays.proj4.util.ServletUtility;
 @WebServlet("/BannerListCtl")
 public class BannerListCtl extends BaseCtl{
 
+	@Override
+	protected void preload(HttpServletRequest request) {
+		
+		BannerModel model = new BannerModel();
+		try {
+			List<bannerBean> bannerList = (List<bannerBean>)model.list();
+			request.setAttribute("bannerList", bannerList);
+		} catch (ApplicationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {

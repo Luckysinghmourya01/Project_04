@@ -38,7 +38,7 @@
 				int index = ((pageNo - 1) * pageSize) + 1;
 				int nextListSize = DataUtility.getInt(request.getAttribute("nextListSize").toString());
 
-				List<bannerBean> roleList = (List<bannerBean>) request.getAttribute("roleList");
+				List<bannerBean> bannerList = (List<bannerBean>) request.getAttribute("bannerList");
 				List<bannerBean> list = (List<bannerBean>) ServletUtility.getList(request);
 
 				Iterator<bannerBean> it = list.iterator();
@@ -56,10 +56,11 @@
 
 						<label align="center"><b>Banner Title :</b></label><input type="text"
 						name="bannerTitle" placeholder="Enter Last Name"
-						value="<%=ServletUtility.getParameter("bannerTitle", request)%>">
+						value="<%=ServletUtility.getParameter("bannerTitle", request)%>">&emsp;
 
 
-
+                <label align="center"><b>Banner status :</b></label>
+                <%=HtmlUtility.getList("banner", String.valueOf(bean.getBannerStatus()), bannerList) %>
 						
 						<input type="submit" name="operation"
 						value="<%=BannerListCtl.OP_SEARCH%>"> &nbsp; <input

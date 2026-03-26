@@ -28,6 +28,12 @@ public class UserModel {
 
 	private static Logger log = Logger.getLogger(UserModel.class);
 
+	
+	/**
+	 * @return
+	 * next pk method return pk+1 
+	 * @throws DatabaseException
+	 */
 	public Integer nextPk() throws DatabaseException {
 		Connection conn = null;
 		int pk = 0;
@@ -49,6 +55,13 @@ public class UserModel {
 		return pk + 1;
 	}
 
+	/**
+	 * @param bean
+	 * @return
+	 * add method add user data only
+	 * @throws ApplicationException
+	 * @throws DublicateRecordException
+	 */
 	public long add(UserBean bean) throws ApplicationException, DublicateRecordException {
 
 		log.debug("add() called");
