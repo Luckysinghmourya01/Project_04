@@ -73,7 +73,7 @@ public class CollegeListCtl extends BaseCtl {
 			ServletUtility.setPageNo(pageNo, request);
 			ServletUtility.setPageSize(pageSize, request);
 			ServletUtility.setBean(bean, request);
-			request.setAttribute("nextListSize", next);
+			request.setAttribute("nextListSize", next.size());
 			ServletUtility.forword(getView(), request, response);
 
 		} catch (ApplicationException e) {
@@ -150,7 +150,7 @@ public class CollegeListCtl extends BaseCtl {
 			ServletUtility.setPageNo(pageNo, request);
 			ServletUtility.setPageSize(pageSize, request);
 			ServletUtility.setBean(bean, request);
-			request.setAttribute("nextListSize", next);
+			request.setAttribute("nextListSize", next.size());
 			ServletUtility.forword(getView(), request, response);
 		} catch (ApplicationException e) {
 			e.printStackTrace();

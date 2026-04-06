@@ -78,9 +78,10 @@ public class ForgetPasswordCtl extends BaseCtl {
 				e.printStackTrace();
 				ServletUtility.setErrorMessage("Please check your internet connection..!!", request);
 			}
+
+			ServletUtility.forword(getView(), request, response);
 		}
 
-		ServletUtility.forword(getView(), request, response);
 	}
 
 	@Override

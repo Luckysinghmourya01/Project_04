@@ -112,5 +112,8 @@ public interface ORSView {
 	
 	public String CART_VIEW = PAGE_FOLDER +"/CartView.jsp";
 	public String CART_CTL = APP_CONTEXT +"/CartCtl";
+	
+	public String ERROR_VIEW = PAGE_FOLDER +"/ErrorView.jsp";
+	public String ERROR_CTL = APP_CONTEXT +"/ErrorCtl";
 
 }

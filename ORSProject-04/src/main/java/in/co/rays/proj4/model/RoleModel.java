@@ -96,6 +96,13 @@ public class RoleModel {
 		return pk;
 	}
 
+	/**
+	 * update a role record
+	 * 
+	 * @param bean
+	 * @throws ApplicationException
+	 * @throws DublicateRecordException
+	 */
 	public void update(RoleBean bean) throws ApplicationException, DublicateRecordException {
 
 		Connection conn = null;
@@ -137,6 +144,12 @@ public class RoleModel {
 		}
 	}
 
+	/**
+	 * delete a role from tables
+	 * 
+	 * @param bean
+	 * @throws ApplicationException
+	 */
 	public void delete(RoleBean bean) throws ApplicationException {
 
 		Connection conn = null;

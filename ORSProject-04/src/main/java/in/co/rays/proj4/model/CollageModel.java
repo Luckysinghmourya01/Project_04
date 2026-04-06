@@ -12,8 +12,18 @@ import in.co.rays.proj4.exception.DatabaseException;
 import in.co.rays.proj4.exception.DublicateRecordException;
 import in.co.rays.proj4.util.JDBCDataSource;
 
+/**
+ * @author lucky singh mourya
+ *
+ */
 public class CollageModel {
 
+	/**
+	 * next pk method return pk + 1
+	 * 
+	 * @return
+	 * @throws DatabaseException
+	 */
 	public Integer nextPk() throws DatabaseException {
 		Connection conn = null;
 		int pk = 0;
@@ -35,6 +45,14 @@ public class CollageModel {
 		return pk + 1;
 	}
 
+	/**
+	 * add method contaion college data
+	 * 
+	 * @param bean
+	 * @return
+	 * @throws ApplicationException
+	 * @throws DublicateRecordException
+	 */
 	public long add(CollageBean bean) throws ApplicationException, DublicateRecordException {
 		Connection conn = null;
 		int pk = 0;
@@ -78,6 +96,13 @@ public class CollageModel {
 		return pk;
 	}
 
+	/**
+	 * Updates an existing college.
+	 * 
+	 * @param bean collage bean
+	 * @throws ApplicationException     on DB errors
+	 * @throws DublicateRecordException if name already exists for another ID
+	 */
 	public void update(CollageBean bean) throws ApplicationException, DublicateRecordException {
 
 		Connection conn = null;
@@ -118,6 +143,12 @@ public class CollageModel {
 		}
 	}
 
+	/**
+	 * delete a college data
+	 * 
+	 * @param bean CollegeBean containing ID
+	 * @throws ApplicationException
+	 */
 	public void delete(CollageBean bean) throws ApplicationException {
 		Connection conn = null;
 		try {

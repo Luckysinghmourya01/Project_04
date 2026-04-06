@@ -1,4 +1,3 @@
-
 package in.co.rays.proj4.model;
 
 import java.sql.Connection;
@@ -28,11 +27,11 @@ public class UserModel {
 
 	private static Logger log = Logger.getLogger(UserModel.class);
 
-	
 	/**
-	 * @return
-	 * next pk method return pk+1 
-	 * @throws DatabaseException
+	 * Returns next primary key for st_user table.
+	 * 
+	 * @return next available primary key
+	 * @throws DatabaseException if any database error occurs
 	 */
 	public Integer nextPk() throws DatabaseException {
 		Connection conn = null;
@@ -56,9 +55,10 @@ public class UserModel {
 	}
 
 	/**
-	 * @param bean
-	 * @return
-	 * add method add user data only
+	 * Adds a new user record.
+	 * 
+	 * @param bean UserBean containing user details
+	 * @return generate primary key
 	 * @throws ApplicationException
 	 * @throws DublicateRecordException
 	 */
@@ -116,6 +116,12 @@ public class UserModel {
 		return pk;
 	}
 
+	/**
+	 * Deletes a user record.
+	 * 
+	 * @param bean UserBean containing user ID
+	 * @throws ApplicationException if delete fails
+	 */
 	public void delete(UserBean bean) throws ApplicationException {
 
 		Connection conn = null;
@@ -141,6 +147,13 @@ public class UserModel {
 		}
 	}
 
+	/**
+	 * Updates a user record.
+	 * 
+	 * @param bean UserBean containing updated details
+	 * @throws DublicateRecordException if login ID already exists
+	 * @throws ApplicationException     if update fails
+	 */
 	public void update(UserBean bean) throws DublicateRecordException, ApplicationException {
 
 		Connection conn = null;
@@ -320,7 +333,7 @@ public class UserModel {
 			if (bean.getLastName() != null && bean.getLastName().length() > 0) {
 				sql.append(" and last_name like '" + bean.getLastName() + "%'");
 			}
-			 if (bean.getLogin() != null && bean.getLogin().length() > 0) {
+			if (bean.getLogin() != null && bean.getLogin().length() > 0) {
 				sql.append(" and login like '" + bean.getLogin() + "%'");
 			}
 			if (bean.getPassword() != null && bean.getPassword().length() > 0) {

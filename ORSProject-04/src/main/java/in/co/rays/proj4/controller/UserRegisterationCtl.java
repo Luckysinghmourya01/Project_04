@@ -152,8 +152,7 @@ public class UserRegisterationCtl extends BaseCtl {
 			ServletUtility.redirect(ORSView.USER_REGISTERATION_CTL, request, response);
 			return;
 		}
-		ServletUtility.forword(ORSView.USER_REGISTERATION_VIEW, request, response);
-		return;
+
 	}
 
 	@Override

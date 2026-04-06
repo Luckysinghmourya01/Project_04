@@ -17,7 +17,9 @@ in\co\rays\proj4\bean\FacultyBean.class
 in\co\rays\proj4\controller\CourseCtl.class
 in\co\rays\proj4\model\AtmModel.class
 in\co\rays\proj4\bean\AtmBean.class
+in\co\rays\proj4\bean\CartBean.class
 in\co\rays\proj4\util\DataValidator.class
+in\co\rays\proj4\controller\CartCtl.class
 in\co\rays\proj4\bean\MarksheetBean.class
 in\co\rays\proj4\test\TestRoleModel.class
 in\co\rays\proj4\test\TestUserModel.class
@@ -34,13 +36,13 @@ in\co\rays\proj4\model\StudentModel.class
 in\co\rays\proj4\controller\LoginCtl.class
 in\co\rays\proj4\controller\TransportCtl.class
 in\co\rays\proj4\model\CollageModel.class
-in\co\rays\proj4\bean\PTicketbean.class
 in\co\rays\proj4\controller\CollegeListCtl.class
 in\co\rays\proj4\util\EmailUtility.class
 in\co\rays\proj4\test\testEmailUtility.class
 in\co\rays\proj4\controller\AtmListCtl.class
 in\co\rays\proj4\bean\Subjectbean.class
 in\co\rays\proj4\controller\StudentListCtl.class
+in\co\rays\proj4\model\CartModel.class
 in\co\rays\proj4\model\TransportModel.class
 in\co\rays\proj4\test\testSubscription.class
 in\co\rays\proj4\controller\MyProfileCtl.class
@@ -52,7 +54,6 @@ in\co\rays\proj4\controller\TicketListCtl.class
 in\co\rays\proj4\test\TestCollegeModel.class
 in\co\rays\proj4\bean\bannerBean.class
 in\co\rays\proj4\model\MarksheetModel.class
-in\co\rays\proj4\model\PTicektModel.class
 in\co\rays\proj4\controller\BaseCtl.class
 in\co\rays\proj4\bean\StudentBean.class
 in\co\rays\proj4\model\FacultyModel.class
@@ -89,4 +90,3 @@ in\co\rays\proj4\util\EmailMessage.class
 in\co\rays\proj4\bean\SubscriptionBean.class
 in\co\rays\proj4\controller\FacultyCtl.class
 in\co\rays\proj4\bean\DropDownListBean.class
-in\co\rays\proj4\test\TestTicket.class

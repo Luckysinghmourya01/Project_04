@@ -25,7 +25,7 @@
 
 	<%
 		UserBean user = (UserBean) session.getAttribute("user");
-	boolean loggedIn = user != null;
+		boolean loggedIn = user != null;
 	%>
 
 	<!-- Logged In view -->
@@ -54,7 +54,9 @@
 
 	<!-- Admin only -->
 
-	<% if (user.getRoleId() == RoleBean.ADMIN){ %>
+	<%
+		if (user.getRoleId() == RoleBean.ADMIN) {
+	%>
 
 	<a href="<%=ORSView.ROLE_CTL%>"><b>Add Role</b></a>
 	<b>|</b>
@@ -69,11 +71,15 @@
 	<a href="<%=ORSView.COLLEGE_LIST_CTL%>"><b>College List</b></a>
 	<b>|</b>
 
-	<%} %>
+	<%
+		}
+	%>
 
 	<!-- Faculty + admin view -->
 
-	<%if(user.getRoleId() == RoleBean.FACULTY || user.getRoleId() == RoleBean.ADMIN ){ %>
+	<%
+		if (user.getRoleId() == RoleBean.FACULTY || user.getRoleId() == RoleBean.ADMIN) {
+	%>
 
 	<a href="<%=ORSView.STUDENT_CTL%>"><b>Add Student</b></a>
 	<b>|</b>
@@ -98,9 +104,10 @@
 	<a href="<%=ORSView.FACULTY_LIST_CTL%>"><b>Faculty List</b></a>
 	<b>|</b>
 
-	<%} 
+	<%
+		}
 	%>
-	<a href="<%=ORSView.JAVA_DOC%>">Java Doc</a>
+	<a href="<%=ORSView.JAVA_DOC%>" target="blank">Java Doc</a>
 	<b>|</b>
 	<a href="<%=ORSView.LOGIN_CTL%>?operation=<%=LoginCtl.OP_LOG_OUT%>"><b>Logout</b></a>
 
