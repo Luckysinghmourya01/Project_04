@@ -21,13 +21,12 @@ import in.co.rays.proj4.util.ServletUtility;
 
 @WebServlet("/CartCtl")
 public class CartCtl extends BaseCtl {
-	
-	
+
 	@Override
 	protected boolean validate(HttpServletRequest request) {
-		
-		boolean pass  = true;
-		
+
+		boolean pass = true;
+
 		if (DataValidator.isNull(request.getParameter("userName"))) {
 			request.setAttribute("userName", PropertyReader.getValue("error.require", "User Name"));
 			pass = false;
@@ -41,33 +40,32 @@ public class CartCtl extends BaseCtl {
 
 			pass = false;
 		}
-			
 
 		if (DataValidator.isNull(request.getParameter("totalItem"))) {
 			request.setAttribute("totalItem", PropertyReader.getValue("error.require", "Total Item"));
 			pass = false;
 		}
-		
 
 		if (DataValidator.isNull(request.getParameter("status"))) {
 			request.setAttribute("status", PropertyReader.getValue("error.require", "Status"));
 			pass = false;
-		
+
 		}
-		
+
 		return pass;
 	}
-	
+
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
-		 CartBean bean = new CartBean();
-		 
-		 bean.setUserName(DataUtility.getString(request.getParameter("userName")));
-		 bean.setCartCode(DataUtility.getString(request.getParameter("cartCode")));
-		 bean.setTotalItem(DataUtility.getInt(request.getParameter("totalItem")));
-		 bean.setStatus(DataUtility.getString(request.getParameter("status")));
-		 
-		 return bean;
+		CartBean bean = new CartBean();
+		
+		bean.setId(DataUtility.getLong(request.getParameter("id")));
+		bean.setUserName(DataUtility.getString(request.getParameter("userName")));
+		bean.setCartCode(DataUtility.getString(request.getParameter("cartCode")));
+		bean.setTotalItem(DataUtility.getInt(request.getParameter("totalItem")));
+		bean.setStatus(DataUtility.getString(request.getParameter("status")));
+
+		return bean;
 	}
 
 	@Override
@@ -135,8 +133,9 @@ public class CartCtl extends BaseCtl {
 				ServletUtility.handleException(e, request, response);
 				return;
 			}
+
 		} else if (OP_CANCEL.equalsIgnoreCase(op)) {
-			ServletUtility.redirect(ORSView.USER_LIST_CTL, request, response);
+			ServletUtility.redirect(ORSView.CART_LIST_CTL, request, response);
 			return;
 		}
 
